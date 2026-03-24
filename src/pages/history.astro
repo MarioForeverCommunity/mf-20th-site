@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import YearNav from '../components/YearNav.astro';
+import { parse } from 'yaml';
+import type { HistoryItem, YearInfo } from '../types/history';
+
+const historyFile = await import('../data/history.yaml?raw');
+const historyItems: HistoryItem[] = parse(historyFile.default);
+
+const yearCounts: Map<number, number> = new Map();
+historyItems.forEach((item: HistoryItem) => {
+  yearCounts.set(item.year, (yearCounts.get(item.year) || 0) + 1);
+});
+
+const years: YearInfo[] = Array.from(yearCounts.entries()).map(([year, count]) => ({
+  year,
+  count,
+}));
+---
+
+<BaseLayout title="历史沿革" description="永远的玛丽吧二十年发展历程">
+  <div class="min-h-screen pt-16">
+    <section class="px-4 py-12">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="mb-4 text-3xl font-bold text-[var(--color-text-primary)] md:text-4xl">历史沿革</h1>
+      </div>
+    </section>
+
+    <section class="relative pb-16">
+      <Timeline items={historyItems} />
+      <YearNav years={years} />
+    </section>
+  </div>
+</BaseLayout>

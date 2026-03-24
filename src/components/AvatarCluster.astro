@@ -1,0 +1,495 @@
+---
+interface AvatarItem {
+  username: string;
+  x: number;
+  y: number;
+  size: number;
+  delay: number;
+}
+
+interface Props {
+  usernames?: string[];
+  width?: number;
+  height?: number;
+  mobileWidth?: number;
+  mobileHeight?: number;
+  mobileMaxAvatars?: number;
+}
+
+const { 
+  usernames = [], 
+  width = 800, 
+  height = 600,
+  mobileWidth = 360,
+  mobileHeight = 400,
+  mobileMaxAvatars = 35
+} = Astro.props;
+
+const MAX_AVATARS = 80;
+
+function generatePuzzlePositions(
+  users: string[], 
+  containerWidth: number, 
+  containerHeight: number,
+  minSize: number,
+  maxSize: number
+): AvatarItem[] {
+  const gap = 4;
+  const padding = 8;
+
+  const positions: { x: number; y: number; size: number }[] = [];
+  const result: AvatarItem[] = [];
+
+  const sizes = users.map(() => minSize + Math.random() * (maxSize - minSize));
+
+  for (let i = 0; i < users.length; i++) {
+    const username = users[i];
+    const size = sizes[i];
+    let placed = false;
+    let attempts = 0;
+    const maxAttempts = 1000;
+
+    while (!placed && attempts < maxAttempts) {
+      const x = padding + Math.random() * (containerWidth - size - padding * 2);
+      const y = padding + Math.random() * (containerHeight - size - padding * 2);
+
+      let overlapping = false;
+      for (const pos of positions) {
+        const rect1 = { left: x - gap, right: x + size + gap, top: y - gap, bottom: y + size + gap };
+        const rect2 = { left: pos.x - gap, right: pos.x + pos.size + gap, top: pos.y - gap, bottom: pos.y + pos.size + gap };
+
+        if (rect1.left < rect2.right && rect1.right > rect2.left && rect1.top < rect2.bottom && rect1.bottom > rect2.top) {
+          overlapping = true;
+          break;
+        }
+      }
+
+      if (!overlapping) {
+        positions.push({ x, y, size });
+        result.push({
+          username,
+          x,
+          y,
+          size,
+          delay: Math.random() * 0.3,
+        });
+        placed = true;
+      }
+
+      attempts++;
+    }
+  }
+
+  return result;
+}
+
+const desktopAvatars = generatePuzzlePositions(
+  usernames.slice(0, MAX_AVATARS), 
+  width, 
+  height,
+  30,
+  90
+);
+
+const mobileAvatars = generatePuzzlePositions(
+  usernames.slice(0, mobileMaxAvatars), 
+  mobileWidth, 
+  mobileHeight,
+  24,
+  60
+);
+---
+
+<div
+  class="avatar-wall avatar-wall-desktop relative mx-auto rounded-2xl"
+  style={`width: ${width}px; height: ${height}px;`}
+  id="avatar-wall-container-desktop"
+>
+  <div class="avatar-wall-bg"></div>
+  <div class="avatar-wall-grid"></div>
+  <div class="avatar-wall-glow"></div>
+  <div class="avatar-wall-dots-minor"></div>
+  <div class="avatar-wall-vignette"></div>
+  
+  {
+    desktopAvatars.map((avatar) => (
+      <div
+        class="avatar-item-wrapper absolute"
+        style={`left: ${avatar.x}px; top: ${avatar.y}px; width: ${avatar.size}px; height: ${avatar.size}px;`}
+      >
+        <div
+          class="avatar-item cursor-pointer"
+          style={`animation-delay: ${avatar.delay}s;`}
+          data-username={avatar.username}
+        >
+          <img
+            src={`/images/avatars/${avatar.username}.jpg`}
+            alt={avatar.username}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            onerror="this.src='/images/avatars/default.svg'"
+          />
+          <div class="avatar-overlay absolute inset-0 opacity-0 transition-opacity duration-200"></div>
+        </div>
+        <div class="avatar-tooltip fixed z-50 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm opacity-0 shadow-lg transition-opacity duration-200 pointer-events-none">
+          {avatar.username}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<div
+  class="avatar-wall avatar-wall-mobile relative mx-auto rounded-2xl"
+  style={`width: ${mobileWidth}px; height: ${mobileHeight}px;`}
+  id="avatar-wall-container-mobile"
+>
+  <div class="avatar-wall-bg"></div>
+  <div class="avatar-wall-grid"></div>
+  <div class="avatar-wall-glow"></div>
+  <div class="avatar-wall-dots-minor"></div>
+  <div class="avatar-wall-vignette"></div>
+  
+  {
+    mobileAvatars.map((avatar) => (
+      <div
+        class="avatar-item-wrapper absolute"
+        style={`left: ${avatar.x}px; top: ${avatar.y}px; width: ${avatar.size}px; height: ${avatar.size}px;`}
+      >
+        <div
+          class="avatar-item cursor-pointer"
+          style={`animation-delay: ${avatar.delay}s;`}
+          data-username={avatar.username}
+        >
+          <img
+            src={`/images/avatars/${avatar.username}.jpg`}
+            alt={avatar.username}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            onerror="this.src='/images/avatars/default.svg'"
+          />
+          <div class="avatar-overlay absolute inset-0 opacity-0 transition-opacity duration-200"></div>
+        </div>
+        <div class="avatar-tooltip fixed z-50 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm opacity-0 shadow-lg transition-opacity duration-200 pointer-events-none">
+          {avatar.username}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .avatar-wall {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      0 14px 30px -20px rgb(0 0 0 / 0.35);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .avatar-wall-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 14% 14%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 46%),
+      radial-gradient(circle at 84% 82%, color-mix(in srgb, #60a5fa 8%, transparent), transparent 50%),
+      linear-gradient(138deg, color-mix(in srgb, var(--color-bg-primary) 100%, transparent) 0%, var(--color-bg-secondary) 56%, color-mix(in srgb, var(--color-bg-primary) 98%, transparent) 100%);
+    opacity: 0.95;
+    animation: wallBgShift 18s ease-in-out infinite alternate;
+  }
+
+  .avatar-wall-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.27;
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-border) 68%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 68%, transparent) 1px, transparent 1px);
+    background-size: 34px 34px;
+    animation: gridFloat 22s linear infinite;
+  }
+
+  .avatar-wall-dots-minor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: normal;
+    background-image: radial-gradient(circle, color-mix(in srgb, var(--color-text-secondary) 64%, #ffffff 10%) 1.1px, transparent 1.7px);
+    background-size: 11px 11px;
+    opacity: 0.34;
+    animation: dotsMinorMove 12s linear infinite, dotsPulse 4.5s ease-in-out infinite;
+  }
+
+  .avatar-wall-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 58%, rgb(0 0 0 / 0.1) 100%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.12), transparent 26%, transparent 74%, rgb(0 0 0 / 0.05));
+  }
+
+  @keyframes wallBgShift {
+    from {
+      transform: scale(1) translate3d(0, 0, 0);
+      filter: saturate(1);
+    }
+    to {
+      transform: scale(1.02) translate3d(-8px, -5px, 0);
+      filter: saturate(1.04);
+    }
+  }
+
+  @keyframes gridFloat {
+    from {
+      background-position: 0 0, 0 0;
+    }
+    to {
+      background-position: 72px 36px, -36px 54px;
+    }
+  }
+
+  @keyframes dotsMinorMove {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -66px 88px;
+    }
+  }
+
+  @keyframes dotsPulse {
+    0%,
+    100% {
+      opacity: 0.27;
+    }
+    50% {
+      opacity: 0.42;
+    }
+  }
+
+  :global(.dark) .avatar-wall-bg {
+    background:
+      radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 40%),
+      radial-gradient(circle at 82% 85%, color-mix(in srgb, #60a5fa 14%, transparent), transparent 44%),
+      linear-gradient(135deg, color-mix(in srgb, var(--color-bg-primary) 96%, transparent) 0%, var(--color-bg-secondary) 58%, color-mix(in srgb, var(--color-bg-primary) 90%, transparent) 100%);
+    opacity: 0.95;
+  }
+
+  :global(.dark) .avatar-wall-grid {
+    opacity: 0.18;
+  }
+
+  :global(.dark) .avatar-wall-dots-minor {
+    mix-blend-mode: screen;
+    background-image: radial-gradient(circle, color-mix(in srgb, var(--color-text-muted) 45%, #ffffff 35%) 1px, transparent 1.6px);
+    opacity: 0.2;
+  }
+
+  :global(.dark) .avatar-wall-vignette {
+    background:
+      radial-gradient(circle at 50% 50%, transparent 56%, rgb(0 0 0 / 0.18) 100%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), transparent 24%, transparent 76%, rgb(0 0 0 / 0.08));
+  }
+
+  .avatar-wall-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        color-mix(in srgb, #818cf8 24%, transparent) 0%,
+        color-mix(in srgb, #60a5fa 12%, transparent) 22%,
+        transparent 54%
+      ),
+      radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        color-mix(in srgb, #ffffff 18%, transparent) 0%,
+        transparent 32%
+      );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .avatar-wall:hover .avatar-wall-glow {
+    opacity: 1;
+  }
+
+  .avatar-item-wrapper {
+    overflow: visible;
+  }
+
+  .avatar-item {
+    animation: fadeInAvatar 0.5s ease-out forwards;
+    opacity: 0;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease, z-index 0.2s ease;
+  }
+
+  @keyframes fadeInAvatar {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .avatar-overlay {
+    background: transparent;
+  }
+
+  .avatar-item:hover .avatar-overlay {
+    opacity: 0;
+  }
+
+  .avatar-item:hover {
+    z-index: 10;
+    transform: scale(1.05);
+  }
+
+  .avatar-tooltip {
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(10px);
+    transform: translateX(-50%);
+  }
+
+  .avatar-item-wrapper:hover .avatar-tooltip {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .avatar-tooltip {
+      display: none;
+    }
+
+    .avatar-item-wrapper.active .avatar-tooltip {
+      display: block;
+    }
+  }
+
+  .avatar-wall-desktop {
+    display: block;
+  }
+
+  .avatar-wall-mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .avatar-wall-desktop {
+      display: none;
+    }
+
+    .avatar-wall-mobile {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  function initAvatarWall(containerId: string) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    const avatarItemWrappers = Array.from(container.querySelectorAll<HTMLElement>('.avatar-item-wrapper'));
+    const glow = container.querySelector('.avatar-wall-glow') as HTMLElement;
+
+    function updateTooltipPositions() {
+      avatarItemWrappers.forEach((wrapper) => {
+        const tooltip = wrapper.querySelector('.avatar-tooltip') as HTMLElement;
+        if (!tooltip) return;
+
+        const rect = wrapper.getBoundingClientRect();
+
+        const left = rect.left + rect.width / 2;
+        const top = rect.bottom + 8;
+
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let finalLeft = left;
+        let finalTop = top;
+
+        if (finalLeft - tooltipRect.width / 2 < 0) {
+          finalLeft = tooltipRect.width / 2 + 8;
+        } else if (finalLeft + tooltipRect.width / 2 > viewportWidth) {
+          finalLeft = viewportWidth - tooltipRect.width / 2 - 8;
+        }
+
+        if (finalTop + tooltipRect.height > viewportHeight) {
+          finalTop = rect.top - 8;
+          tooltip.classList.add('tooltip-up');
+        } else {
+          tooltip.classList.remove('tooltip-up');
+        }
+
+        tooltip.style.left = `${finalLeft}px`;
+        tooltip.style.top = `${finalTop}px`;
+      });
+    }
+
+    function updateGlow(e: MouseEvent) {
+      if (!container || !glow) return;
+      
+      const rect = container.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      
+      container.style.setProperty('--mouse-x', `${x}%`);
+      container.style.setProperty('--mouse-y', `${y}%`);
+    }
+
+    avatarItemWrappers.forEach((wrapper) => {
+      wrapper.addEventListener('mouseenter', () => {
+        updateTooltipPositions();
+      });
+
+      wrapper.addEventListener('click', function () {
+        if (window.innerWidth <= 768) {
+          avatarItemWrappers.forEach((w) => w.classList.remove('active'));
+          wrapper.classList.toggle('active');
+          if (wrapper.classList.contains('active')) {
+            updateTooltipPositions();
+          }
+        }
+      });
+    });
+
+    container.addEventListener('mousemove', updateGlow);
+    container.addEventListener('mouseleave', () => {
+      if (glow) {
+        glow.style.opacity = '0';
+      }
+    });
+    container.addEventListener('mouseenter', () => {
+      if (glow) {
+        glow.style.opacity = '1';
+      }
+    });
+
+    window.addEventListener('resize', updateTooltipPositions);
+  }
+
+  initAvatarWall('avatar-wall-container-desktop');
+  initAvatarWall('avatar-wall-container-mobile');
+
+  document.addEventListener('click', function (e) {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.avatar-item-wrapper')) {
+      document.querySelectorAll('.avatar-item-wrapper.active').forEach((w) => w.classList.remove('active'));
+    }
+  });
+</script>

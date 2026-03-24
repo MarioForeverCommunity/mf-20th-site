@@ -1,0 +1,83 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+  { href: '/?index', label: '首页' },
+  { href: '/history', label: '历史沿革' },
+  { href: '/messages', label: '成员寄语' },
+  { href: '/works', label: '二十周年档' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="fixed top-0 left-0 right-0 z-40 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-bg-primary)]/80">
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <a href="/?index" class="flex items-center space-x-2">
+      <span class="text-xl font-bold text-[var(--color-accent)]">永吧</span>
+      <span class="text-sm text-[var(--color-text-muted)]">二十周年</span>
+    </a>
+
+    <div class="hidden items-center space-x-1 md:flex">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+              currentPath === item.href
+                ? 'bg-[var(--color-bg-secondary)] text-[var(--color-accent)]'
+                : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)] hover:text-[var(--color-text-primary)]',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <ThemeToggle />
+
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        class="rounded-lg p-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)] md:hidden"
+        aria-label="打开菜单"
+      >
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t border-[var(--color-border)] md:hidden">
+    <div class="space-y-1 px-4 py-3">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'block rounded-lg px-3 py-2 text-base font-medium transition-colors',
+              currentPath === item.href
+                ? 'bg-[var(--color-bg-secondary)] text-[var(--color-accent)]'
+                : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)] hover:text-[var(--color-text-primary)]',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  mobileMenuBtn?.addEventListener('click', function () {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script>

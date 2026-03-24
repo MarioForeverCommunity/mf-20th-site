@@ -1,0 +1,48 @@
+---
+import type { MessageItem } from '../types/message';
+
+interface Props {
+  message: MessageItem;
+  index: number;
+}
+
+const { message, index } = Astro.props;
+---
+
+<div
+  class="message-card card flex flex-col overflow-hidden p-5"
+  style={`animation-delay: ${index * 0.05}s`}
+>
+  <div class="mb-4 flex items-center gap-3">
+    <img
+      src={`/images/avatars/${message.username}.jpg`}
+      alt={message.username}
+      class="h-12 w-12 rounded-full border-2 border-white/50 object-cover shadow-sm dark:border-gray-700/50"
+      loading="lazy"
+      onerror="this.src='/images/avatars/default.svg'"
+    />
+    <div>
+      <h3 class="font-semibold text-[var(--color-text-primary)]">{message.username}</h3>
+      <p class="text-xs text-[var(--color-text-muted)]">永吧吧友</p>
+    </div>
+  </div>
+  <p class="flex-1 text-sm leading-relaxed text-[var(--color-text-secondary)]">"{message.content}"</p>
+</div>
+
+<style>
+  .message-card {
+    opacity: 0;
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

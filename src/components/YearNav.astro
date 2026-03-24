@@ -1,0 +1,97 @@
+---
+import type { YearInfo } from '../types/history';
+
+interface Props {
+  years: YearInfo[];
+}
+
+const { years } = Astro.props;
+
+const sortedYears = [...years].sort((a, b) => a.year - b.year);
+---
+
+<div class="year-nav fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 lg:block">
+  <ul class="space-y-1 text-right">
+    {
+      sortedYears.map((yearInfo) => (
+        <li>
+          <a
+            href={`#year-${yearInfo.year}`}
+            class="year-nav-link group relative block px-2 py-0.5 text-xs text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+            data-year={yearInfo.year}
+          >
+            <span class="year-indicator absolute -left-1 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[var(--color-accent)] opacity-0 transition-opacity"></span>
+            {yearInfo.year}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  let isScrolling = false;
+  let scrollTimeout: number | null = null;
+  
+  function setActiveYear(year: string) {
+    const links = document.querySelectorAll('.year-nav-link');
+    links.forEach((link) => {
+      const indicator = link.querySelector('.year-indicator');
+      if (link.getAttribute('data-year') === year && indicator) {
+        indicator.classList.remove('opacity-0');
+        indicator.classList.add('opacity-100');
+      } else if (indicator) {
+        indicator.classList.remove('opacity-100');
+        indicator.classList.add('opacity-0');
+      }
+    });
+  }
+  
+  function updateActiveYear() {
+    if (isScrolling) return;
+    
+    const sections = document.querySelectorAll('[id^="year-"]');
+    if (sections.length === 0) return;
+    
+    const navbarHeight = 64;
+    const viewportHeight = window.innerHeight;
+    let currentYear: string | null = null;
+    
+    for (const section of sections) {
+      const dot = section.querySelector('.timeline-dot');
+      if (!dot) continue;
+      
+      const rect = dot.getBoundingClientRect();
+      const isInViewport = rect.top >= navbarHeight && rect.top < viewportHeight;
+      
+      if (isInViewport) {
+        currentYear = section.id.replace('year-', '');
+        break;
+      }
+    }
+    
+    if (currentYear) {
+      setActiveYear(currentYear);
+    }
+  }
+  
+  document.querySelectorAll('.year-nav-link').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const year = link.getAttribute('data-year');
+      if (year) {
+        isScrolling = true;
+        setActiveYear(year);
+        
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = window.setTimeout(() => {
+          isScrolling = false;
+        }, 1000);
+      }
+    });
+  });
+  
+  window.addEventListener('scroll', updateActiveYear);
+  document.addEventListener('DOMContentLoaded', updateActiveYear);
+</script>

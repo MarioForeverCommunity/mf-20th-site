@@ -1,0 +1,70 @@
+---
+import type { HistoryItem } from '../types/history';
+import TimelineCard from './TimelineCard.astro';
+
+interface Props {
+  items: HistoryItem[];
+}
+
+const { items } = Astro.props;
+
+const sortedItems = [...items].sort((a, b) => a.year - b.year);
+
+const processedItems = sortedItems.map((item, index) => {
+  const isFirstOfYear = index === 0 || sortedItems[index - 1].year !== item.year;
+  return { ...item, isFirstOfYear };
+});
+---
+
+<div class="timeline-container relative mx-auto max-w-4xl px-4 py-8 lg:max-w-6xl">
+  <div class="timeline-line absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-[var(--color-border)] md:top-[-40px] md:h-[calc(100%+40px)] md:block"></div>
+
+  <div class="timeline-items">
+    {
+      processedItems.map((item, index) => {
+        const isLeft = index % 2 === 0;
+        const isLast = index === processedItems.length - 1;
+        return (
+          <div class:list={['timeline-item-wrapper', isLast && 'timeline-item-last']} id={`year-${item.year}`}>
+            <TimelineCard item={item} isLeft={isLeft} index={index} showYear={item.isFirstOfYear} isLast={isLast} />
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style>
+  .timeline-item-wrapper {
+    min-height: 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-item-wrapper {
+      height: 180px;
+      min-height: unset;
+      margin-bottom: 0;
+      position: relative;
+      overflow: visible;
+    }
+
+    .timeline-item-last {
+      margin-top: 60px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .timeline-item-wrapper {
+      height: 220px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .timeline-line {
+      left: 16px;
+      transform: none;
+    }
+  }
+</style>

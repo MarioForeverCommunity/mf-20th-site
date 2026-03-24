@@ -1,0 +1,60 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  duration?: number;
+}
+
+const { duration = 3500 } = Astro.props;
+---
+
+<div
+  id="splash-screen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-xl dark:bg-[#0f0f1a]/70"
+>
+  <div class="animate-scale-in">
+    <Logo width={250} height={250} />
+  </div>
+</div>
+
+<script define:vars={{ duration }}>
+  document.addEventListener('DOMContentLoaded', function () {
+    const splash = document.getElementById('splash-screen');
+    if (!splash) return;
+
+    const url = new URL(window.location.href);
+    const showSplash = url.pathname === '/' && url.search === '';
+
+    if (!showSplash) {
+      splash.style.display = 'none';
+      return;
+    }
+
+    setTimeout(function () {
+      splash.style.transition = 'opacity 0.5s ease-out, backdrop-filter 0.5s ease-out';
+      splash.style.opacity = '0';
+      splash.style.backdropFilter = 'blur(0px)';
+
+      setTimeout(function () {
+        splash.style.display = 'none';
+      }, 500);
+    }, duration);
+  });
+</script>
+
+<style>
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+</style>
