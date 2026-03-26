@@ -2,11 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Timeline from '../components/Timeline.astro';
 import YearNav from '../components/YearNav.astro';
-import { parse } from 'yaml';
+import { loadYaml } from '../utils/loadYaml';
 import type { HistoryItem, YearInfo } from '../types/history';
 
-const historyFile = await import('../data/history.yaml?raw');
-const historyItems: HistoryItem[] = parse(historyFile.default);
+const historyItems = await loadYaml<HistoryItem[]>('history.yaml');
 
 const yearCounts: Map<number, number> = new Map();
 historyItems.forEach((item: HistoryItem) => {

@@ -1,11 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MessageCard from '../components/MessageCard.astro';
-import { parse } from 'yaml';
+import { loadYaml } from '../utils/loadYaml';
 import type { MessageItem } from '../types/message';
 
-const messagesFile = await import('../data/messages.yaml?raw');
-const messages: MessageItem[] = parse(messagesFile.default);
+const messages = await loadYaml<MessageItem[]>('messages.yaml');
 ---
 
 <BaseLayout title="成员寄语" description="永吧吧友们的祝福与心声">
