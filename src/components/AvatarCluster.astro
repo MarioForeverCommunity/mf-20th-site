@@ -118,14 +118,14 @@ const mobileAvatars = generatePuzzlePositions(
         style={`left: ${avatar.x}px; top: ${avatar.y}px; width: ${avatar.size}px; height: ${avatar.size}px;`}
       >
         <div
-          class="avatar-item cursor-pointer"
+          class="avatar-item cursor-pointer w-full h-full"
           style={`animation-delay: ${avatar.delay}s;`}
           data-username={avatar.username}
         >
           <img
             src={`/images/avatars/${avatar.username}.jpg`}
             alt={avatar.username}
-            class="w-full h-full object-cover"
+            class="w-full h-full object-fill"
             loading="lazy"
             onerror="this.src='/images/avatars/default.svg'"
           />
@@ -157,14 +157,14 @@ const mobileAvatars = generatePuzzlePositions(
         style={`left: ${avatar.x}px; top: ${avatar.y}px; width: ${avatar.size}px; height: ${avatar.size}px;`}
       >
         <div
-          class="avatar-item cursor-pointer"
+          class="avatar-item cursor-pointer w-full h-full"
           style={`animation-delay: ${avatar.delay}s;`}
           data-username={avatar.username}
         >
           <img
             src={`/images/avatars/${avatar.username}.jpg`}
             alt={avatar.username}
-            class="w-full h-full object-cover"
+            class="w-full h-full object-fill"
             loading="lazy"
             onerror="this.src='/images/avatars/default.svg'"
           />
