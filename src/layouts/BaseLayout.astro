@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -44,5 +45,6 @@ const { title, description = '永远的玛丽吧二十周年纪念专题' } = As
     <main class="relative z-0">
       <slot />
     </main>
+    <Footer />
   </body>
 </html>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+---
+
+<footer class:list={['w-full py-8 mt-auto', className]}>
+  <div class="border-t border-[var(--color-border)] mb-6"></div>
+  <div class="text-center text-sm text-[var(--color-text-secondary)]">
+    <p class="flex flex-wrap justify-center items-center gap-x-1">
+      <span>© 2006-2026</span>
+      <span><a href="https://tieba.baidu.com/f?kw=%E6%B0%B8%E8%BF%9C%E7%9A%84%E7%8E%9B%E4%B8%BD" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)] hover:underline transition-colors duration-200">百度永远的玛丽吧</a></span>
+      <span>&</span>
+      <span>2019-2026</span>
+      <span><a href="https://www.marioforever.net/" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)] hover:underline transition-colors duration-200">Mario Forever 社区</a></span>
+    </p>
+  </div>
+</footer>
