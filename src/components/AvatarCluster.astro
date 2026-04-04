@@ -131,9 +131,6 @@ const mobileAvatars = generatePuzzlePositions(
           />
           <div class="avatar-overlay absolute inset-0 opacity-0 transition-opacity duration-200"></div>
         </div>
-        <div class="avatar-tooltip fixed z-50 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm opacity-0 shadow-lg transition-opacity duration-200 pointer-events-none">
-          {avatar.username}
-        </div>
       </div>
     ))
   }
@@ -170,13 +167,13 @@ const mobileAvatars = generatePuzzlePositions(
           />
           <div class="avatar-overlay absolute inset-0 opacity-0 transition-opacity duration-200"></div>
         </div>
-        <div class="avatar-tooltip fixed z-50 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm opacity-0 shadow-lg transition-opacity duration-200 pointer-events-none">
-          {avatar.username}
-        </div>
       </div>
     ))
   }
 </div>
+
+<!-- Global Tooltip outside the containers to avoid clipping -->
+<div id="avatar-global-tooltip" class="fixed z-[100] whitespace-nowrap rounded-lg px-3 py-1.5 text-sm opacity-0 shadow-lg transition-opacity duration-200 pointer-events-none avatar-tooltip"></div>
 
 <style>
   .avatar-wall {
@@ -382,8 +379,8 @@ const mobileAvatars = generatePuzzlePositions(
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(12px);
-    transform: translateX(-50%);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transform: translateX(-50%);
   }
 
   :global(.dark) .avatar-tooltip {
@@ -392,18 +389,12 @@ const mobileAvatars = generatePuzzlePositions(
     color: white;
   }
 
-  .avatar-item-wrapper:hover .avatar-tooltip {
+  .avatar-tooltip.visible {
     opacity: 1;
   }
 
-  @media (max-width: 768px) {
-    .avatar-tooltip {
-      display: none;
-    }
-
-    .avatar-item-wrapper.active .avatar-tooltip {
-      display: block;
-    }
+  .avatar-tooltip.tooltip-up {
+    transform: translate(-50%, -100%);
   }
 
   .avatar-wall-desktop {
@@ -426,46 +417,62 @@ const mobileAvatars = generatePuzzlePositions(
 </style>
 
 <script>
+  const globalTooltip = document.getElementById('avatar-global-tooltip');
+
   function initAvatarWall(containerId: string) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    const avatarItemWrappers = Array.from(container.querySelectorAll<HTMLElement>('.avatar-item-wrapper'));
+    const avatarItems = Array.from(container.querySelectorAll<HTMLElement>('.avatar-item'));
     const glow = container.querySelector('.avatar-wall-glow') as HTMLElement;
 
-    function updateTooltipPositions() {
-      avatarItemWrappers.forEach((wrapper) => {
-        const tooltip = wrapper.querySelector('.avatar-tooltip') as HTMLElement;
-        if (!tooltip) return;
+    function updateTooltipPosition(item: HTMLElement) {
+      if (!globalTooltip) return;
 
-        const rect = wrapper.getBoundingClientRect();
+      const username = item.getAttribute('data-username');
+      if (!username) return;
 
-        const left = rect.left + rect.width / 2;
-        const top = rect.bottom + 8;
+      globalTooltip.textContent = username;
+      const rect = item.getBoundingClientRect();
 
-        const tooltipRect = tooltip.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+      const left = rect.left + rect.width / 2;
+      const top = rect.bottom + 8;
 
-        let finalLeft = left;
-        let finalTop = top;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
 
-        if (finalLeft - tooltipRect.width / 2 < 0) {
-          finalLeft = tooltipRect.width / 2 + 8;
-        } else if (finalLeft + tooltipRect.width / 2 > viewportWidth) {
-          finalLeft = viewportWidth - tooltipRect.width / 2 - 8;
-        }
+      globalTooltip.classList.remove('tooltip-up');
+      
+      // Initial positioning to get size
+      globalTooltip.style.left = `${left}px`;
+      globalTooltip.style.top = `${top}px`;
+      
+      const tooltipRect = globalTooltip.getBoundingClientRect();
+      let finalLeft = left;
+      let finalTop = top;
 
-        if (finalTop + tooltipRect.height > viewportHeight) {
-          finalTop = rect.top - 8;
-          tooltip.classList.add('tooltip-up');
-        } else {
-          tooltip.classList.remove('tooltip-up');
-        }
+      // Horizontal bounds
+      if (finalLeft - tooltipRect.width / 2 < 8) {
+        finalLeft = tooltipRect.width / 2 + 8;
+      } else if (finalLeft + tooltipRect.width / 2 > viewportWidth - 8) {
+        finalLeft = viewportWidth - tooltipRect.width / 2 - 8;
+      }
 
-        tooltip.style.left = `${finalLeft}px`;
-        tooltip.style.top = `${finalTop}px`;
-      });
+      // Vertical bounds (if at bottom, show above)
+      if (finalTop + tooltipRect.height > viewportHeight - 8) {
+        finalTop = rect.top - 8;
+        globalTooltip.classList.add('tooltip-up');
+      }
+
+      globalTooltip.style.left = `${finalLeft}px`;
+      globalTooltip.style.top = `${finalTop}px`;
+      globalTooltip.classList.add('visible');
+    }
+
+    function hideTooltip() {
+      if (globalTooltip) {
+        globalTooltip.classList.remove('visible');
+      }
     }
 
     function updateGlow(e: MouseEvent) {
@@ -479,18 +486,17 @@ const mobileAvatars = generatePuzzlePositions(
       container.style.setProperty('--mouse-y', `${y}%`);
     }
 
-    avatarItemWrappers.forEach((wrapper) => {
-      wrapper.addEventListener('mouseenter', () => {
-        updateTooltipPositions();
+    avatarItems.forEach((item) => {
+      item.addEventListener('mouseenter', () => {
+        updateTooltipPosition(item);
       });
 
-      wrapper.addEventListener('click', function () {
+      item.addEventListener('mouseleave', hideTooltip);
+
+      item.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
-          avatarItemWrappers.forEach((w) => w.classList.remove('active'));
-          wrapper.classList.toggle('active');
-          if (wrapper.classList.contains('active')) {
-            updateTooltipPositions();
-          }
+          e.stopPropagation();
+          updateTooltipPosition(item);
         }
       });
     });
@@ -500,23 +506,26 @@ const mobileAvatars = generatePuzzlePositions(
       if (glow) {
         glow.style.opacity = '0';
       }
+      hideTooltip();
     });
     container.addEventListener('mouseenter', () => {
       if (glow) {
         glow.style.opacity = '1';
       }
     });
-
-    window.addEventListener('resize', updateTooltipPositions);
   }
 
   initAvatarWall('avatar-wall-container-desktop');
   initAvatarWall('avatar-wall-container-mobile');
 
-  document.addEventListener('click', function (e) {
-    const target = e.target as HTMLElement;
-    if (!target.closest('.avatar-item-wrapper')) {
-      document.querySelectorAll('.avatar-item-wrapper.active').forEach((w) => w.classList.remove('active'));
-    }
+  // Hide tooltip on scroll or click elsewhere
+  window.addEventListener('scroll', () => {
+    const globalTooltip = document.getElementById('avatar-global-tooltip');
+    globalTooltip?.classList.remove('visible');
+  }, { passive: true });
+
+  document.addEventListener('click', () => {
+    const globalTooltip = document.getElementById('avatar-global-tooltip');
+    globalTooltip?.classList.remove('visible');
   });
 </script>
