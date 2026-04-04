@@ -6,73 +6,29 @@ interface Props {
 }
 
 const { width = 200, height = 200, class: className = '' } = Astro.props;
-const gradientId = `logo-gradient-${Math.random().toString(36).slice(2, 10)}`;
 ---
 
-<svg
-  viewBox="0 0 200 200"
-  width={width}
-  height={height}
-  class={className}
-  xmlns="http://www.w3.org/2000/svg"
+<div 
+  class:list={["flex flex-col items-center justify-center space-y-3", className]}
+  style={`width: ${width}px;`}
 >
-  <defs>
-    <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="var(--logo-gradient-start)" />
-      <stop offset="100%" stop-color="var(--logo-gradient-end)" />
-    </linearGradient>
-  </defs>
-
-  <circle cx="100" cy="100" r="90" fill={`url(#${gradientId})`} />
-  <circle cx="100" cy="100" r="80" fill="none" stroke="white" stroke-width="2" opacity="0.3" />
-
-  <text
-    x="100"
-    y="85"
-    text-anchor="middle"
-    font-family="Inter, system-ui, sans-serif"
-    font-size="48"
-    font-weight="700"
-    fill="white"
-  >
-    永吧
-  </text>
-
-  <text
-    x="100"
-    y="120"
-    text-anchor="middle"
-    font-family="Inter, system-ui, sans-serif"
-    font-size="20"
-    font-weight="600"
-    fill="white"
-    opacity="0.9"
-  >
-    20th Anniversary
-  </text>
-
-  <text
-    x="100"
-    y="150"
-    text-anchor="middle"
-    font-family="Inter, system-ui, sans-serif"
-    font-size="14"
-    font-weight="500"
-    fill="white"
-    opacity="0.7"
-  >
-    2006 - 2026
-  </text>
-</svg>
+  <img 
+    src="/images/logo/mfbarlogo.png" 
+    alt="MF Bar Logo" 
+    class="w-full h-auto drop-shadow-lg transition-all duration-300 dark:brightness-110"
+    style={`max-width: ${width}px;`}
+  />
+  
+  <div class="flex flex-col items-center space-y-1 text-center">
+    <span class="text-2xl font-bold tracking-[0.3em] bg-gradient-to-r from-[var(--color-accent)] to-blue-400 bg-clip-text text-transparent">
+      二十周年
+    </span>
+    <span class="text-sm font-medium tracking-widest text-[var(--color-text-secondary)] opacity-80 dark:text-white/60">
+      2006 - 2026
+    </span>
+  </div>
+</div>
 
 <style>
-  :global(:root) {
-    --logo-gradient-start: #dc2626;
-    --logo-gradient-end: #991b1b;
-  }
-
-  :global(.dark) {
-    --logo-gradient-start: #f87171;
-    --logo-gradient-end: #dc2626;
-  }
+  /* 这里的样式主要由 Tailwind 处理，如果需要特殊的滤镜效果可以在此添加 */
 </style>

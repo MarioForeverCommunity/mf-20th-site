@@ -17,7 +17,7 @@ const processedItems = sortedItems.map((item, index) => {
 ---
 
 <div class="timeline-container relative mx-auto max-w-4xl px-4 py-8 lg:max-w-6xl">
-  <div class="timeline-line absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-[var(--color-border)] md:top-[-40px] md:h-[calc(100%+40px)] md:block"></div>
+  <div class="timeline-line absolute top-0 h-full w-1 bg-[var(--color-accent)] opacity-40 dark:opacity-60 md:top-[-40px] md:h-[calc(100%+40px)] shadow-[0_0_20px_rgba(59,130,246,0.6)] rounded-t-full"></div>
 
   <div class="timeline-items">
     {
@@ -63,8 +63,15 @@ const processedItems = sortedItems.map((item, index) => {
 
   @media (max-width: 768px) {
     .timeline-line {
-      left: 16px;
-      transform: none;
+      left: 32px;
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .timeline-line {
+      left: calc(50% - 0.25px);
+      transform: translateX(-50%);
     }
   }
 </style>

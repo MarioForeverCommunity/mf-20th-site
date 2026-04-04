@@ -10,10 +10,10 @@ const { duration = 3500 } = Astro.props;
 
 <div
   id="splash-screen"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-xl dark:bg-[#0f0f1a]/70"
+  class="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--color-bg-primary)]/80 backdrop-blur-2xl cursor-pointer select-none"
 >
   <div class="animate-scale-in">
-    <Logo width={250} height={250} />
+    <Logo width={400} height={400} />
   </div>
 </div>
 
@@ -30,15 +30,26 @@ const { duration = 3500 } = Astro.props;
       return;
     }
 
-    setTimeout(function () {
-      splash.style.transition = 'opacity 0.5s ease-out, backdrop-filter 0.5s ease-out';
+    let isDismissed = false;
+
+    const hideSplash = () => {
+      if (isDismissed) return;
+      isDismissed = true;
+      
+      splash.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
       splash.style.opacity = '0';
       splash.style.backdropFilter = 'blur(0px)';
 
       setTimeout(function () {
         splash.style.display = 'none';
-      }, 500);
-    }, duration);
+      }, 400);
+    };
+
+    // 点击立即消失
+    splash.addEventListener('click', hideSplash);
+
+    // 自动消失
+    setTimeout(hideSplash, duration);
   });
 </script>
 

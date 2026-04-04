@@ -33,9 +33,15 @@ const { title, description = '永远的玛丽吧二十周年纪念专题' } = As
       })();
     </script>
   </head>
-  <body class="min-h-screen font-sans antialiased">
+  <body class="min-h-screen font-sans antialiased relative">
+    <!-- Background elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+      <div class="absolute top-[5%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-blue-400/10 blur-[120px]"></div>
+      <div class="absolute bottom-[10%] right-[5%] w-[50vw] h-[50vw] rounded-full bg-red-400/5 blur-[120px]"></div>
+      <div class="absolute top-[40%] right-[20%] w-[30vw] h-[30vw] rounded-full bg-purple-400/5 blur-[100px]"></div>
+    </div>
     <Navbar />
-    <main>
+    <main class="relative z-0">
       <slot />
     </main>
   </body>
