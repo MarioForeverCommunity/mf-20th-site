@@ -337,11 +337,11 @@ const mobileAvatars = generatePuzzlePositions(
     opacity: 1;
   }
 
-  .avatar-item-wrapper {
+  :global(.avatar-item-wrapper) {
     overflow: visible;
   }
 
-  .avatar-item {
+  :global(.avatar-item) {
     animation: fadeInAvatar 0.5s ease-out forwards;
     opacity: 0;
     overflow: hidden;
@@ -351,7 +351,7 @@ const mobileAvatars = generatePuzzlePositions(
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  :global(.dark) .avatar-item {
+  :global(.dark .avatar-item) {
     border-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
   }
@@ -367,15 +367,15 @@ const mobileAvatars = generatePuzzlePositions(
     }
   }
 
-  .avatar-overlay {
+  :global(.avatar-overlay) {
     background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.2));
   }
 
-  .avatar-item:hover .avatar-overlay {
+  :global(.avatar-item:hover .avatar-overlay) {
     opacity: 0.3;
   }
 
-  .avatar-item:hover {
+  :global(.avatar-item:hover) {
     z-index: 10;
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
