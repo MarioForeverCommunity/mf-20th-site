@@ -6,8 +6,6 @@ import Logo from '../components/Logo.astro';
 import { readdirSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const MAX_AVATARS = 80;
-
 function getAvatarUsernames(): string[] {
   const avatarsDir = join(process.cwd(), 'public', 'images', 'avatars');
 
@@ -30,10 +28,6 @@ function getAvatarUsernames(): string[] {
 }
 
 let usernames = getAvatarUsernames();
-
-if (usernames.length > MAX_AVATARS) {
-  usernames = usernames.sort(() => Math.random() - 0.5).slice(0, MAX_AVATARS);
-}
 ---
 
 <BaseLayout title="首页">

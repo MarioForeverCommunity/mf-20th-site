@@ -104,6 +104,10 @@ const mobileAvatars = generatePuzzlePositions(
   class="avatar-wall avatar-wall-desktop relative mx-auto rounded-2xl"
   style={`width: ${width}px; height: ${height}px;`}
   id="avatar-wall-container-desktop"
+  data-usernames={JSON.stringify(usernames)}
+  data-width={width}
+  data-height={height}
+  data-max-avatars={MAX_AVATARS}
 >
   <div class="avatar-wall-bg"></div>
   <div class="avatar-wall-grid"></div>
@@ -140,6 +144,9 @@ const mobileAvatars = generatePuzzlePositions(
   class="avatar-wall avatar-wall-mobile relative mx-auto rounded-2xl"
   style={`width: ${mobileWidth}px; height: ${mobileHeight}px;`}
   id="avatar-wall-container-mobile"
+  data-mobile-width={mobileWidth}
+  data-mobile-height={mobileHeight}
+  data-mobile-max-avatars={mobileMaxAvatars}
 >
   <div class="avatar-wall-bg"></div>
   <div class="avatar-wall-grid"></div>
@@ -417,11 +424,119 @@ const mobileAvatars = generatePuzzlePositions(
 </style>
 
 <script>
+  interface AvatarItem {
+    username: string;
+    x: number;
+    y: number;
+    size: number;
+    delay: number;
+  }
+
+  function generatePuzzlePositions(
+    users: string[], 
+    containerWidth: number, 
+    containerHeight: number,
+    minSize: number,
+    maxSize: number
+  ): AvatarItem[] {
+    const gap = 4;
+    const padding = 8;
+    const positions: { x: number; y: number; size: number }[] = [];
+    const result: AvatarItem[] = [];
+    const sizes = users.map(() => minSize + Math.random() * (maxSize - minSize));
+
+    for (let i = 0; i < users.length; i++) {
+      const username = users[i];
+      const size = sizes[i];
+      let placed = false;
+      let attempts = 0;
+      const maxAttempts = 1000;
+
+      while (!placed && attempts < maxAttempts) {
+        const x = padding + Math.random() * (containerWidth - size - padding * 2);
+        const y = padding + Math.random() * (containerHeight - size - padding * 2);
+
+        let overlapping = false;
+        for (const pos of positions) {
+          const rect1 = { left: x - gap, right: x + size + gap, top: y - gap, bottom: y + size + gap };
+          const rect2 = { left: pos.x - gap, right: pos.x + pos.size + gap, top: pos.y - gap, bottom: pos.y + pos.size + gap };
+
+          if (rect1.left < rect2.right && rect1.right > rect2.left && rect1.top < rect2.bottom && rect1.bottom > rect2.top) {
+            overlapping = true;
+            break;
+          }
+        }
+
+        if (!overlapping) {
+          positions.push({ x, y, size });
+          result.push({
+            username,
+            x,
+            y,
+            size,
+            delay: Math.random() * 0.3,
+          });
+          placed = true;
+        }
+        attempts++;
+      }
+    }
+    return result;
+  }
+
   const globalTooltip = document.getElementById('avatar-global-tooltip');
 
   function initAvatarWall(containerId: string) {
     const container = document.getElementById(containerId);
     if (!container) return;
+
+    // 1. 获取并处理数据
+    const usernamesStr = container.getAttribute('data-usernames') || '[]';
+    let usernames = JSON.parse(usernamesStr);
+    if (usernames.length === 0) return;
+
+    const isMobile = containerId.includes('mobile');
+    const width = parseInt(container.getAttribute(isMobile ? 'data-mobile-width' : 'data-width') || (isMobile ? '360' : '1000'));
+    const height = parseInt(container.getAttribute(isMobile ? 'data-mobile-height' : 'data-height') || (isMobile ? '400' : '600'));
+    const maxAvatars = parseInt(container.getAttribute(isMobile ? 'data-mobile-max-avatars' : 'data-max-avatars') || (isMobile ? '35' : '80'));
+    const minSize = isMobile ? 24 : 30;
+    const maxSize = isMobile ? 60 : 90;
+
+    // 2. 随机洗牌并截取
+    usernames = usernames.sort(() => Math.random() - 0.5).slice(0, maxAvatars);
+    
+    // 3. 生成位置
+    const avatars = generatePuzzlePositions(usernames, width, height, minSize, maxSize);
+
+    // 4. 清理现有的头像元素（保留背景、网格等层）
+    const existingWrappers = container.querySelectorAll('.avatar-item-wrapper');
+    existingWrappers.forEach(el => el.remove());
+
+    // 5. 渲染新头像
+    avatars.forEach(avatar => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'avatar-item-wrapper absolute';
+      wrapper.style.cssText = `left: ${avatar.x}px; top: ${avatar.y}px; width: ${avatar.size}px; height: ${avatar.size}px;`;
+      
+      wrapper.innerHTML = `
+        <div class="avatar-item cursor-pointer w-full h-full" style="animation-delay: ${avatar.delay}s;" data-username="${avatar.username}">
+          <img
+            src="/images/avatars/${avatar.username}.jpg"
+            alt="${avatar.username}"
+            class="w-full h-full object-fill"
+            loading="lazy"
+          />
+          <div class="avatar-overlay absolute inset-0 opacity-0 transition-opacity duration-200"></div>
+        </div>
+      `;
+
+      const img = wrapper.querySelector('img');
+      if (img) {
+        img.onerror = () => { img.src = '/images/avatars/default.svg'; };
+      }
+
+      container.appendChild(wrapper);
+    });
     
     const avatarItems = Array.from(container.querySelectorAll<HTMLElement>('.avatar-item'));
     const glow = container.querySelector('.avatar-wall-glow') as HTMLElement;
