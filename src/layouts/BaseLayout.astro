@@ -22,6 +22,105 @@ const { title, description = '永远的玛丽吧二十周年纪念专题' } = As
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title} | 永吧二十周年</title>
+    <style is:inline>
+      @keyframes liquid {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(5%, 5%) rotate(5deg); }
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 30%, rgba(0, 113, 227, 0.12) 0%, transparent 45%),
+                    radial-gradient(circle at 70% 60%, rgba(239, 68, 68, 0.08) 0%, transparent 45%),
+                    radial-gradient(circle at 40% 80%, rgba(0, 113, 227, 0.08) 0%, transparent 45%);
+        z-index: -2;
+        filter: blur(120px);
+        animation: liquid 25s infinite alternate ease-in-out;
+        pointer-events: none;
+      }
+
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.04;
+        pointer-events: none;
+        mix-blend-mode: overlay;
+      }
+
+      :global(.dark) body::after {
+        opacity: 0.06;
+        mix-blend-mode: soft-light;
+      }
+
+      .card {
+        background-color: var(--color-bg-secondary);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-glass);
+        box-shadow:
+          var(--shadow-sm),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+        -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+        transition: all 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 50%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        pointer-events: none;
+      }
+
+      .card:hover {
+        box-shadow: var(--shadow-md);
+        background-color: var(--color-bg-tertiary);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .btn-primary {
+        background-color: var(--color-accent);
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.28, 0.11, 0.32, 1);
+        box-shadow: 0 8px 20px rgba(0, 113, 227, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--color-accent-hover);
+        box-shadow: 0 12px 24px rgba(0, 113, 227, 0.35);
+      }
+
+      .link {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .link:hover {
+        color: var(--color-accent-hover);
+        text-decoration: underline;
+      }
+    </style>
     <script is:inline>
       (function () {
         const theme = localStorage.getItem('theme');
