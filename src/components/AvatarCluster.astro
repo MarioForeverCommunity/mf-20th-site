@@ -609,10 +609,8 @@ const mobileAvatars = generatePuzzlePositions(
       item.addEventListener('mouseleave', hideTooltip);
 
       item.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          e.stopPropagation();
-          updateTooltipPosition(item);
-        }
+        e.stopPropagation();
+        updateTooltipPosition(item);
       });
     });
 
