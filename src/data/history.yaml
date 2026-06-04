@@ -33,6 +33,11 @@
   description: "Mario Forever作者发布了5.0版本，将游戏引擎升级到Multimedia Fusion 2。从5.0开始，作者开发游戏的方向逐渐从可玩性转为所谓的“视觉特效”和“手感、流畅度”等方向，许多Bug莫名其妙地开始出现，但作者不再像以前对待游戏的更新那样用心。"
   image: "2010-3.png"
 
+- title: "永吧五周年"
+  year: 2011
+  description: "2011年是永吧建吧五周年。这一年一批新人加入永吧，当年的那批新生代，成为了未来几年永吧的主力军，他们当中甚至有一部分吧友，如今仍在Mario Forever社群中活跃着。"
+  image: ""
+
 - title: "Mario Forever Advance全程无受伤一命通关录像发布"
   year: 2012
   description: "2012年除夕，@syzxchulun 发布了MFAE全程无受伤一命通关录像，完成了这一在当时难度空前的成就。"
@@ -60,7 +65,7 @@
 
 - title: "Rainbow Engine发布"
   year: 2014
-  description: "由@虹原翼 从零制作的Mario Forever制作模板（引擎）也于2014年除夕发布0.9版本，此后的大多数Mario Forever同人作品都使用了Rainbow Engine。"
+  description: "由@虹原翼 从零制作的Mario Forever制作模板（引擎）也于2014年除夕发布0.9版本，此后的大部分Mario Forever同人作品都使用了Rainbow Engine。"
   image: "2014-2.webp"
 
 - title: "PK!MF关卡设计竞赛成功举办"
@@ -82,6 +87,11 @@
   year: 2017
   description: "2017年2月4日，由国内Mario Forever Remake Group制作组更新了Mario Forever Remake 3.5和Mario Forever Advance Remake 1.5版本，修复了诸多Bug，并新增了包括原版附加关和Syzxchulun Team's World 13在内的新内容。"
   image: "2017.png"
+
+- title: "国内Mario Forever同人作品迎来小高峰"
+  year: 2018
+  description: "Mario Forever Dream Escape、Super Mario Forever 2014 Deluxe、xfx's world、Mario Forever Irrational Travel等作品相继发布，开启了国内Mario Forever同人社群的黄金时代。"
+  image: "2018.png"
 
 - title: "百度贴吧下架2017年之前的所有内容"
   year: 2019
@@ -127,6 +137,11 @@
   year: 2022
   description: "Mario Forever社区成立三周年之际，Mario Forever社区首次在B站平台设立自媒体账号。该账号上传了Mario Forever解说视频排行榜、PK!MF和Mario Worker杯的关卡视频、Mario Worker大爆炸、秘密合战等相关内容。"
   image: "2022-3.png"
+
+- title: "二十四节气系列作品公募大会"
+  year: 2023
+  description: "Mario Forever Season Collab（二十四节气系列作品公募大会）是2023年2月~2024年1月由Ultra Team发起和组织的关卡公募活动关卡合集。这一活动以中国传统二十四节气为主题，每个节气（间隔约14~18天）对投稿关卡进行整合发布，每个季节最后一个节气后的周末整合该季节所有关卡发布，在最后一个节气后整合所有关卡发布。公募活动受到了吧友的踊跃参与，共收到投稿157关。"
+  image: "2023.png"
 
 - title: "PK!MF联赛正式启动"
   year: 2024
