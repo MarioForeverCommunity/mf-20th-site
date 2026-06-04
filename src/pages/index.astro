@@ -46,9 +46,23 @@ let usernames = getAvatarUsernames();
     <section class="relative overflow-hidden px-4 py-8">
       <div class="mx-auto max-w-6xl">
         <h2 class="mb-2 text-center text-2xl font-semibold text-[var(--color-text-primary)]">吧友头像墙</h2>
-        <p class="mb-8 text-center text-sm text-[var(--color-text-muted)]">
+        <p class="mb-4 text-center text-sm text-[var(--color-text-muted)]">
           头像为随机选取，大小完全随机，无任何特定暗示或含义；吧友众多，难免存在遗漏，敬请见谅！
         </p>
+        <div class="mb-6 flex justify-center">
+          <button
+            id="refresh-avatar-btn"
+            class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2 text-sm text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] active:scale-95"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+              <path d="M16 21h5v-5" />
+            </svg>
+            <span>换一批</span>
+          </button>
+        </div>
         {
           usernames.length > 0 ? (
             <div class="flex justify-center">
@@ -93,3 +107,14 @@ let usernames = getAvatarUsernames();
     </section>
   </div>
 </BaseLayout>
+
+<script>
+  const refreshBtn = document.getElementById('refresh-avatar-btn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => {
+      if ((window as any).refreshAvatarWall) {
+        (window as any).refreshAvatarWall();
+      }
+    });
+  }
+</script>

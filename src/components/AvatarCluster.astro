@@ -629,6 +629,12 @@ const mobileAvatars = generatePuzzlePositions(
     });
   }
 
+  // Expose refresh function to global scope
+  (window as any).refreshAvatarWall = () => {
+    initAvatarWall('avatar-wall-container-desktop');
+    initAvatarWall('avatar-wall-container-mobile');
+  };
+
   initAvatarWall('avatar-wall-container-desktop');
   initAvatarWall('avatar-wall-container-mobile');
 
