@@ -12,7 +12,6 @@
     "astro": "astro",
     "deploy": "bash deploy.sh"
   },
-  "dependencies": {},
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@tailwindcss/postcss": "^4.3.1",
