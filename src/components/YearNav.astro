@@ -11,7 +11,7 @@ const sortedYears = [...years].sort((a, b) => a.year - b.year);
 ---
 
 <div class="year-nav fixed right-6 top-1/2 z-30 hidden -translate-y-1/2 lg:block">
-  <ul class="card !rounded-2xl !bg-[var(--color-bg-secondary)]/30 !p-2 space-y-1 text-center border border-white/20 shadow-xl transition-all duration-500 hover:!transform-none">
+  <ul class="card !rounded-2xl !bg-[var(--color-bg-secondary)]/30 !p-2 space-y-1 text-center border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 hover:!transform-none">
     {
       sortedYears.map((yearInfo) => (
         <li>

@@ -20,7 +20,7 @@ const { title, description = '永远的玛丽吧二十周年纪念专题' } = As
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title} | 百度 永远的玛丽吧 二十周年</title>
     <style is:inline>
       @keyframes liquid {
@@ -66,7 +66,8 @@ const { title, description = '永远的玛丽吧二十周年纪念专题' } = As
         border-radius: var(--radius-glass);
         box-shadow:
           var(--shadow-sm),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(var(--glass-blur)) saturate(180%);
         -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
         transition: all 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
@@ -80,40 +81,44 @@ const { title, description = '永远的玛丽吧二十周年纪念专题' } = As
         inset: 0;
         background: linear-gradient(
           135deg,
-          rgba(255, 255, 255, 0.1) 0%,
-          rgba(255, 255, 255, 0) 50%,
-          rgba(255, 255, 255, 0.05) 100%
+          rgba(255, 255, 255, 0.12) 0%,
+          rgba(255, 255, 255, 0) 40%,
+          rgba(255, 255, 255, 0) 60%,
+          rgba(255, 255, 255, 0.04) 100%
         );
         pointer-events: none;
       }
 
       .card:hover {
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         background-color: var(--color-bg-tertiary);
         border-color: rgba(255, 255, 255, 0.5);
       }
 
       .btn-primary {
-        background-color: var(--color-accent);
+        background: linear-gradient(180deg, var(--color-accent-hover) 0%, var(--color-accent) 100%);
         color: white;
         padding: 0.7rem 1.5rem;
         border-radius: 2rem;
         font-weight: 600;
         transition: all 0.4s cubic-bezier(0.28, 0.11, 0.32, 1);
-        box-shadow: 0 8px 20px rgba(0, 113, 227, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2), 0 8px 24px rgba(0, 113, 227, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       }
 
       .btn-primary:hover {
-        background-color: var(--color-accent-hover);
-        box-shadow: 0 12px 24px rgba(0, 113, 227, 0.35);
+        background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+        box-shadow: 0 6px 16px rgba(0, 113, 227, 0.25), 0 12px 32px rgba(0, 113, 227, 0.2);
       }
 
       .link {
         color: var(--color-accent);
         text-decoration: none;
         transition: color 0.2s ease;
+        text-underline-offset: 2px;
+        text-decoration-thickness: 1px;
       }
 
       .link:hover {

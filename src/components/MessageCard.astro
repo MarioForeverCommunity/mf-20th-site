@@ -17,7 +17,7 @@ const { message, index } = Astro.props;
     <img
       src={`/images/avatars/${message.username}.jpg`}
       alt={message.username}
-      class="h-12 w-12 rounded-full border-2 border-white/40 object-cover shadow-lg shadow-black/5 ring-1 ring-white/10"
+      class="h-12 w-12 rounded-full border-2 border-white/40 object-cover shadow-[0_2px_8px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-white/10"
       loading="lazy"
       onerror="this.src='/images/avatars/default.svg'"
     />
