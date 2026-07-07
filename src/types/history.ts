@@ -3,6 +3,7 @@ export interface HistoryItem {
   year: number;
   description: string;
   image?: string;
+  link?: string;
 }
 
 export interface YearInfo {

@@ -2,11 +2,13 @@
   year: 2006
   description: "2006年8月19日9时46分，@HappyLee 在百度永远的玛丽吧发帖《永远的玛丽吧建立原因》，宣告永远的玛丽吧正式建立。"
   image: "2006.webp"
+  link: https://tieba.baidu.com/p/125140866
 
 - title: "《永远的玛丽每日一关攻略》首次公布"
   year: 2007
   description: "由吧友@syzxchulun 撰写的第一版Mario Forever攻略，每天更新一关。"
   image: "2007.webp"
+  link: tieba.baidu.com/p/209718092
 
 - title: "永吧产出大量Mario Forever技术录像"
   year: 2008
@@ -17,76 +19,91 @@
   year: 2009
   description: "2009年，Mario Forever作者发布了Mario Forever 4.4版和Mario Forever Advance Edition（简称MFAE），其中MFAE是Mario Forever 4.4的加难版。Mario Forever 4.4和MFAE是公认的原版Mario Forever巅峰之作。"
   image: "2009.webp"
+  link: https://tieba.baidu.com/p/602063758
 
 - title: "Marioworker吧建立"
   year: 2010
   description: "2010年6月27日，百度Marioworker吧由吧友@newlife2017 建立，Mario Worker社群开启独立发展的阶段。"
   image: "2010-1.webp"
+  link: https://tieba.baidu.com/p/811253295
 
 - title: "新版Mario Forever每日一关攻略开始连载"
   year: 2010
   description: "2010年7月1日，由@syzxchulun 和@whu_qinyu 对Mario Forever每日一关攻略进行修订。"
   image: "2010-2.webp"
+  link: https://tieba.baidu.com/p/814567349
 
 - title: "Mario Forever 5.0发布"
   year: 2010
   description: "Mario Forever作者发布了5.0版本，将游戏引擎升级到Multimedia Fusion 2。从5.0开始，作者开发游戏的方向逐渐从可玩性转为所谓的“视觉特效”和“手感、流畅度”等方向，许多Bug莫名其妙地开始出现，但作者不再像以前对待游戏的更新那样用心。"
   image: "2010-3.webp"
+  link: https://tieba.baidu.com/p/940921718
 
 - title: "永吧五周年"
   year: 2011
   description: "2011年是永吧建吧五周年。这一年一批新人加入永吧，当年的那批新生代，成为了未来几年永吧的主力军，他们当中甚至有一部分吧友，如今仍在Mario Forever社群中活跃着。"
   image: ""
+  link: https://tieba.baidu.com/p/1181222986
 
 - title: "Mario Forever Advance全程无受伤一命通关录像发布"
   year: 2012
   description: "2012年除夕，@syzxchulun 发布了MFAE全程无受伤一命通关录像，完成了这一在当时难度空前的成就。"
   image: "2012-1.webp"
+  link: https://tieba.baidu.com/p/1384491654
 
 - title: "Mario Forever作者公布New Super Mario Forever"
   year: 2012
   description: "2012年初，作者公布了一款全新的游戏Mario Forever 2012（后改名New Super Mario Forever，简称NSMF），于2012年12月21日发布。该作质量低于吧友预期，热度被后来的Mario Forever自制作品盖了过去。"
   image: "2012-2.webp"
+  link: https://tieba.baidu.com/p/2059217967
 
 - title: "Mario Forever 9-1发布"
   year: 2012
   description: "2012年8月，@syzxchulun 等吧友发现了Mario Worker 1.0的源代码，并于永吧建吧六周年之际成功用Multimedia Fusion软件基于该源代码制作出关卡9-1。本关的设计风格基于Mario Forever的关卡6-3，但其中有不少设计在Mario Forever中是没有过的。"
   image: "2012-3.webp"
+  link: https://tieba.baidu.com/p/1802275939
 
 - title: "Mario Forever World 10 Engine开源"
   year: 2013
   description: "2013年，世界版Mario Forever World 9、World 10先后发布，后者的制作模板（引擎）World 10 Engine也于同年10月6日宣布开源。由此，永吧自制作品的时代正式开始。"
   image: "2013.webp"
+  link: https://tieba.baidu.com/p/2635652692
 
 - title: "Mario Forever Remake发布"
   year: 2014
   description: "Mario Forever引擎得到不断的升级改良，永吧的主线已经从研究游戏本身逐渐发展为研究游戏结构，甚至是利用编辑器制作出全新的关卡。在这一背景下，2014年除夕，@syzxchulun 发布了Mario Forever的复刻版本，Mario Forever的发展开始由社区主导。"
   image: "2014-1.webp"
+  link: https://tieba.baidu.com/p/2841218377
 
 - title: "Rainbow Engine发布"
   year: 2014
   description: "由@虹原翼 从零制作的Mario Forever制作模板（引擎）也于2014年除夕发布0.9版本，此后的大部分Mario Forever同人作品都使用了Rainbow Engine。"
   image: "2014-2.webp"
+  link: https://tieba.baidu.com/p/2842502692
 
 - title: "PK!MF关卡设计竞赛成功举办"
   year: 2015
   description: "2015年暑期，由百度永远的玛丽吧和smx吧合作组织的第一届PK!MF及第五届PK!SMX关卡设计竞赛成功举行。"
   image: "2015-1.webp"
+  link: https://tieba.baidu.com/p/3884755031
 
 - title: "Mario Forever Wiki建立"
   year: 2015
   description: "2015年7月，由超吧大水库吧Wiki提供技术支持，Mario Forever Wiki正式建立。"
   image: "2015-2.webp"
+  link: https://zh.wiki.marioforever.net/
 
 - title: "永吧十周年"
   year: 2016
   description: "2016年8月19日，迎来了永吧建吧十周年纪念日。作为有史以来举行的最隆重的一次纪念活动，有不少Mario Forever作品在活动期间发布。"
   image: "2016.webp"
+  link: https://tieba.baidu.com/p/4726475636
 
 - title: "Mario Forever Remake 3.5 + Advance 1.5发布"
   year: 2017
   description: "2017年2月4日，由国内Mario Forever Remake Group制作组更新了Mario Forever Remake 3.5和Mario Forever Advance Remake 1.5版本，修复了诸多Bug，并新增了包括原版附加关和Syzxchulun Team's World 13在内的新内容。"
   image: "2017.webp"
+  link: https://tieba.baidu.com/p/4965707653
 
 - title: "国内Mario Forever同人作品迎来小高峰"
   year: 2018
@@ -102,66 +119,79 @@
   year: 2019
   description: "2019年10月7日晚，由@newlife2017 创建的Mario Forever社区正式上线，成为Mario Forever和Mario Worker在国内的新的交流论坛。"
   image: "2019-2.webp"
+  link: https://www.marioforever.net/
 
 - title: "PK!MF重启"
   year: 2020
   description: "2020年，PK!MF正式回归，于当年暑期举行了重启后的首届比赛PK!MF2。此后，每年暑期都会举办一届PK!MF。"
   image: "2020-1.webp"
+  link: https://www.marioforever.net/thread-492-1-5.html
 
 - title: "Super Mario Ultra Edition引擎发布"
   year: 2020
   description: "这是首款Clickteam Fusion 2.5+平台的Mario Forever制作模板，由@dasasdhba 制作。该引擎不太注重还原Mario Forever原版，而是旨在让制作、开发、游玩等各方面更加舒适。"
   image: "2020-2.webp"
+  link: https://www.marioforever.net/thread-705-1-1.html
 
 - title: "Mario Forever作品汇总计划开启"
   year: 2021
   description: "2021年1月27日，@newlife2017 开启了Mario Forever作品汇总计划，并于同一天上线了初版作品汇总页。"
   image: "2021-1.webp"
+  link: https://www.marioforever.net/thread-847-1-1.html
 
 - title: "永吧十五周年"
   year: 2021
   description: "2021年8月是永远的玛丽吧创立十五周年，十五周年系列活动是永吧建吧日活动首次由Mario Forever社区组织进行。"
   image: "2021-2.webp"
+  link: https://tieba.baidu.com/p/7477585757
 
 - title: "永吧2022年春节解说晚会"
   year: 2022
   description: "这是Mario Forever社区首次以不同吧友制作不同节目的合作形式展开的晚会。"
   image: "2022-1.webp"
+  link: https://www.marioforever.net/thread-1893-1-1.html
 
 - title: "Mario Forever社区资源站建立"
   year: 2022
   description: "2022年4月16日，Mario Forever社区资源站正式设立，截止目前已收录了超600部Mario Forever作品、300多个Super Mario Worker Project关卡作品，并包含了永远的玛丽吧和Marioworker吧永硕网盘的全部资源。"
   image: "2022-2.webp"
+  link: https://file.marioforever.net/
 
 - title: "Mario Forever社区B站官方账号设立"
   year: 2022
   description: "Mario Forever社区成立三周年之际，Mario Forever社区首次在B站平台设立自媒体账号。该账号上传了Mario Forever解说视频排行榜、PK!MF和Mario Worker杯的关卡视频、Mario Worker大爆炸、秘密合战等相关内容。"
   image: "2022-3.webp"
+  link: https://space.bilibili.com/2136191287
 
 - title: "二十四节气系列作品公募大会"
   year: 2023
   description: "Mario Forever Season Collab（二十四节气系列作品公募大会）是2023年2月~2024年1月由Ultra Team发起和组织的关卡公募活动关卡合集。这一活动以中国传统二十四节气为主题，每个节气（间隔约14~18天）对投稿关卡进行整合发布，每个季节最后一个节气后的周末整合该季节所有关卡发布，在最后一个节气后整合所有关卡发布。公募活动受到了吧友的踊跃参与，共收到投稿157关。"
   image: "2023.webp"
+  link: https://www.marioforever.net/thread-2579-1-1.html
 
 - title: "PK!MF联赛正式启动"
   year: 2024
   description: "PK!MF联赛于永吧建吧十八周年这一天正式启动，该活动是为满足吧内希望在PK!MF季后进行关卡制作竞技的选手的需求举办的1对1 PK友谊赛。"
   image: "2024-1.webp"
+  link: https://www.marioforever.net/thread-3341-1-1.html
 
 - title: "新版Mario Forever作品汇总站上线"
   year: 2024
   description: "Mario Forever社区成立五周年，Mario Forever作品汇总站进行了一次全面重构。同时，Mario Forever社区资源站的游戏资源在资源站上线后的几年里进行了大扩充。"
   image: "2024-2.webp"
+  link: https://www.marioforever.net/thread-3413-1-1.html
 
 - title: "社区B站账号与近5万粉丝UP主合作"
   year: 2025
   description: "2025年7月以来，社区与UP主@原力总督 合作，在B站投稿了十多期《游戏速读》系列节目，宣介了Mario Forever圈子发展史及同人作品，总播放量超50万，并带动社区B站账号粉丝量不断增长。"
   image: "2025.webp"
+  link: https://www.bilibili.com/video/BV1rRGNzPE7q/
 
 - title: "Mario Forever社区新春狂欢派对2026"
   year: 2026
   description: "2026年2月16日，Mario Forever社区新春狂欢派对首次在Mario Forever社区官号B站直播间进行放映。"
   image: "2026-1.webp"
+  link: https://www.bilibili.com/video/BV1DzZ5BNEG7/
 
 - title: "永吧二十周年"
   year: 2026

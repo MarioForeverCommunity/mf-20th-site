@@ -53,7 +53,7 @@ const { item, isLeft, index, showYear, isLast = false } = Astro.props;
       ]}
     >
       <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">{item.title}</h3>
-      <p class="text-sm text-[var(--color-text-secondary)]">{item.description}</p>
+      <p class="text-sm text-[var(--color-text-secondary)]">{item.description}{item.link && <a href={item.link} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-[var(--color-accent)] hover:underline">了解详情&gt;&gt;</a>}</p>
       {
         item.image && (
           <div class="mt-3">
