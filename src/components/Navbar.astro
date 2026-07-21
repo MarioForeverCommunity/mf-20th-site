@@ -226,6 +226,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     box-shadow: none;
   }
 
+  :global([data-theme="modern"]) .navbar-logo {
+    letter-spacing: 0.1em;
+  }
+
   :global([data-theme="modern"]) .navbar-link {
     color: var(--color-accent);
     opacity: 0.8;
