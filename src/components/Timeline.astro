@@ -16,8 +16,8 @@ const processedItems = sortedItems.map((item, index) => {
 });
 ---
 
-<div class="timeline-container relative mx-auto max-w-4xl px-4 py-8 lg:max-w-6xl">
-  <div class="timeline-line absolute top-0 h-full w-1 bg-[var(--color-accent)] opacity-40 dark:opacity-60 md:top-[-40px] md:h-[calc(100%+40px)] shadow-[0_0_20px_rgba(59,130,246,0.4),0_0_40px_rgba(59,130,246,0.15)] rounded-t-full"></div>
+<div class="timeline-container">
+  <div class="timeline-line"></div>
 
   <div class="timeline-items">
     {
@@ -34,38 +34,129 @@ const processedItems = sortedItems.map((item, index) => {
   </div>
 </div>
 
+<!-- Image modal (one instance for the whole timeline) -->
+<div id="image-modal" class="image-modal">
+  <img id="modal-image" src="" alt="" class="modal-image" />
+</div>
+
 <style>
-  .timeline-item-wrapper {
-    min-height: 3rem;
-    margin-bottom: 3rem;
+  /* ===== Base container styles ===== */
+  .timeline-container {
     position: relative;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--layout-content-padding);
+  }
+
+  .timeline-line {
+    display: none;
+  }
+
+  .timeline-item-wrapper {
+    position: relative;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* ===== retro: Simple list, no timeline line ===== */
+  :global([data-theme="retro"]) .timeline-item-wrapper {
+    margin-bottom: 0;
+  }
+
+  /* ===== modern: Card flow (mobile) / Alternating timeline with center line (desktop) ===== */
+  :global([data-theme="modern"]) .timeline-item-wrapper {
+    margin-bottom: var(--spacing-lg);
   }
 
   @media (min-width: 768px) {
-    .timeline-item-wrapper {
+    :global([data-theme="modern"]) .timeline-container {
+      padding-top: 8rem;
+    }
+
+    :global([data-theme="modern"]) .timeline-line {
+      display: block;
+      position: absolute;
+      top: -16px;
+      bottom: 0;
+      height: auto;
+      width: 2px;
+      background-color: var(--color-accent);
+      opacity: 0.4;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    :global([data-theme="modern"]) .timeline-items {
+      padding-top: 10px;
+    }
+
+    :global([data-theme="modern"]) .timeline-item-wrapper {
       height: 220px;
       min-height: unset;
       margin-bottom: 0;
-      position: relative;
       overflow: visible;
     }
 
-    .timeline-item-last {
-      margin-top: 60px;
+    :global([data-theme="modern"]) .timeline-item-last {
+      height: auto;
     }
   }
 
-  @media (max-width: 768px) {
-    .timeline-line {
-      left: 32px;
-      transform: translateX(-50%);
-    }
+  /* ===== Image modal ===== */
+  .image-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    background-color: color-mix(in srgb, var(--color-bg-primary) 90%, transparent);
   }
 
-  @media (min-width: 768px) {
-    .timeline-line {
-      left: calc(50% - 0.24px);
-      transform: translateX(-50%);
-    }
+  .image-modal.active {
+    display: flex;
+  }
+
+  .modal-image {
+    max-height: 90vh;
+    max-width: 90vw;
+    border-radius: var(--radius-xl);
+    object-fit: contain;
+    box-shadow: var(--shadow-lg);
   }
 </style>
+
+<script>
+  const modal = document.getElementById('image-modal');
+  const modalImage = document.getElementById('modal-image') as HTMLImageElement;
+
+  // 监听时间线图片和缩略图的点击
+  document.querySelectorAll('.timeline-img, .thumb-img').forEach((img) => {
+    img.addEventListener('click', () => {
+      if (modal && modalImage) {
+        modalImage.src = (img as HTMLImageElement).src;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  function closeModal() {
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+</script>

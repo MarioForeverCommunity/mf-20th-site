@@ -1,5 +1,5 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
+import StyleSwitcher from './StyleSwitcher.astro';
 
 const navItems = [
   { href: '/', label: '首页' },
@@ -11,81 +11,242 @@ const navItems = [
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<div id="navbar" class="fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pointer-events-none">
-  <nav class="mx-auto max-w-6xl card pointer-events-auto !bg-[var(--color-bg-secondary)]/30 !rounded-[2rem] !py-1.5 !px-1.5 border border-black/5 dark:border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-500 hover:!transform-none" id="main-nav">
-    <div class="flex h-11 items-center justify-between relative">
-      <!-- Left part: Logo -->
-      <div class="flex-shrink-0 flex items-center">
-        <a href="/" class="flex items-center space-x-2 pl-4 pr-2 group">
-          <span class="text-xl font-bold tracking-[0.1em] bg-gradient-to-r from-[var(--color-accent)] to-blue-400 bg-clip-text text-transparent opacity-100 transition-opacity" style="text-shadow: none;">永吧二十周年</span>
-        </a>
-      </div>
-
-      <!-- Center part: Nav Items (Absolutely Centered) -->
-      <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center space-x-1">
-        {
-          navItems.map((item) => (
-            <a
-              href={item.href}
-              class:list={[
-                'rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 relative group whitespace-nowrap',
-                currentPath === item.href
-                  ? 'bg-white/60 dark:bg-white/10 text-[var(--color-text-primary)] shadow-[inset_0_1px_3px_rgba(255,255,255,0.68),0_6px_16px_rgba(0,0,0,0.14)] border border-white/70 dark:border-white/15 backdrop-blur-md'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:scale-100',
-              ]}
-            >
-              <span class="relative z-10 inline-block">{item.label}</span>
-              {currentPath !== item.href && (
-                <span class="absolute inset-0 rounded-full bg-white/0 border border-transparent backdrop-blur-none transition-all duration-300 group-hover:bg-white/15 dark:group-hover:bg-white/10 group-hover:backdrop-blur-[10px] group-hover:border-white/25 dark:group-hover:border-white/15 group-hover:shadow-sm"></span>
-              )}
-            </a>
-          ))
-        }
-      </div>
-
-      <!-- Right part: Actions -->
-      <div class="flex items-center space-x-1 pr-1 pl-2 ml-auto">
-        <div class="flex items-center space-x-1 border-l border-white/10 pl-2">
-          <ThemeToggle />
-
-          <button
-            id="mobile-menu-btn"
-            type="button"
-            class="rounded-full p-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all duration-300 focus:outline-none relative group overflow-hidden md:hidden"
-            aria-label="打开菜单"
-          >
-            <span class="absolute inset-0 rounded-full bg-white/0 border border-transparent backdrop-blur-none transition-all duration-300 group-hover:bg-white/40 dark:group-hover:bg-white/8 group-hover:backdrop-blur-[12px] dark:group-hover:backdrop-blur-[10px] group-hover:border-white/60 dark:group-hover:border-white/14 group-hover:shadow-[inset_0_1px_3px_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_2px_8px_rgba(0,0,0,0.16)]"></span>
-            <div class="relative z-10 flex items-center justify-center">
-              <svg class="h-5 w-5 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </div>
-          </button>
-        </div>
-      </div>
+<header id="navbar" class="navbar">
+  <nav class="navbar-inner">
+    <!-- Logo / 站点名称 -->
+    <div class="navbar-brand">
+      <a href="/" class="navbar-logo">永吧二十周年</a>
     </div>
 
-    <div id="mobile-menu" class="max-h-0 md:hidden overflow-hidden transition-all duration-500 ease-in-out">
-      <div class="space-y-2 px-2 py-2 mt-2 border-t border-white/10">
-        {
-          navItems.map((item) => (
-            <a
-              href={item.href}
-              class:list={[
-                'block rounded-2xl px-4 py-2 text-base font-medium transition-all duration-300 relative overflow-hidden',
-                currentPath === item.href
-                  ? 'bg-white/60 dark:bg-white/10 text-[var(--color-text-primary)] shadow-[inset_0_1px_3px_rgba(255,255,255,0.62),0_4px_14px_rgba(0,0,0,0.12)] border border-white/65 dark:border-white/15 backdrop-blur-md'
-                  : 'text-[var(--color-text-secondary)] hover:bg-white/10 dark:hover:bg-white/5 hover:text-[var(--color-text-primary)]',
-              ]}
-            >
-              <span class="relative z-10">{item.label}</span>
-            </a>
-          ))
-        }
-      </div>
+    <!-- 导航链接 -->
+    <div class="navbar-links" id="nav-links">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'navbar-link',
+              currentPath === item.href && 'active',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- 右侧操作区 -->
+    <div class="navbar-actions">
+      <StyleSwitcher />
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        class="navbar-mobile-btn"
+        aria-label="打开菜单"
+      >
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
   </nav>
-</div>
+
+  <!-- 移动端菜单 -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-inner">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'mobile-link',
+              currentPath === item.href && 'active',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: var(--color-nav-bg);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .navbar-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--layout-navbar-height);
+    padding: 0 var(--layout-content-padding);
+  }
+
+  .navbar-brand {
+    flex-shrink: 0;
+  }
+
+  .navbar-logo {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-nav-text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .navbar-links {
+    display: none;
+    align-items: center;
+    gap: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .navbar-links {
+      display: flex;
+    }
+  }
+
+  .navbar-link {
+    padding: 6px 14px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-nav-text);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all var(--transition-speed) ease;
+    opacity: 0.85;
+  }
+
+  .navbar-link:hover {
+    opacity: 1;
+  }
+
+  .navbar-link.active {
+    opacity: 1;
+    background: var(--color-nav-active-bg);
+    color: var(--color-nav-text);
+  }
+
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .navbar-mobile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-nav-text);
+    cursor: pointer;
+  }
+
+  @media (min-width: 768px) {
+    .navbar-mobile-btn {
+      display: none;
+    }
+  }
+
+  .mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  .mobile-menu-inner {
+    padding: 8px var(--layout-content-padding) 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .mobile-link {
+    display: block;
+    padding: 10px 12px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-nav-text);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+    opacity: 0.85;
+  }
+
+  .mobile-link:hover,
+  .mobile-link.active {
+    opacity: 1;
+    background: var(--color-nav-active-bg);
+  }
+
+  /* === 风格特定覆盖 === */
+
+  /* 复古2006: 蓝色渐变导航条 */
+  :global([data-theme="retro"]) .navbar {
+    background: linear-gradient(180deg, var(--color-nav-bg) 0%, var(--color-nav-bg-end) 100%);
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  :global([data-theme="retro"]) .navbar-link.active {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  :global([data-theme="retro"]) .navbar-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  :global([data-theme="retro"]) .mobile-link.active {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* 复刻 2013: 白底蓝色文字，下划线高亮 */
+  :global([data-theme="modern"]) .navbar {
+    box-shadow: none;
+  }
+
+  :global([data-theme="modern"]) .navbar-link {
+    color: var(--color-accent);
+    opacity: 0.8;
+  }
+
+  :global([data-theme="modern"]) .navbar-link:hover {
+    opacity: 1;
+  }
+
+  :global([data-theme="modern"]) .navbar-link.active {
+    color: var(--color-accent);
+    background: transparent;
+    opacity: 1;
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 2px solid var(--color-accent);
+    border-radius: 0;
+  }
+
+  :global([data-theme="modern"]) .mobile-link.active {
+    color: var(--color-accent);
+    background: transparent;
+  }
+
+
+</style>
 
 <script>
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -95,7 +256,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
   mobileMenuBtn?.addEventListener('click', function () {
     if (mobileMenu) {
       const isExpanded = mobileMenu.style.maxHeight && mobileMenu.style.maxHeight !== '0px';
-      
+
       if (isExpanded) {
         mobileMenu.style.maxHeight = '0px';
         if (menuIcon) {

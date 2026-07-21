@@ -1,0 +1,89 @@
+/* 风格2: 现代2013 — 百度贴吧改版后现代社交风格 */
+[data-theme="modern"] {
+  /* 颜色 */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F7;
+  --color-bg-tertiary: #EEEEF0;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-accent: #2319dc;
+  --color-accent-hover: #371cff;
+  --color-border: #E5E5E5;
+  --color-link: #2319dc;
+  --color-link-hover: #371cff;
+  --color-nav-bg: #FFFFFF;
+  --color-nav-bg-end: #FFFFFF;
+  --color-nav-text: #2319dc;
+  --color-nav-active-bg: #2319dc;
+  --color-card-bg: #FFFFFF;
+  --color-card-border: #E5E5E5;
+  --color-row-alt: #F8F8FA;
+  --color-btn-bg: #2319dc;
+  --color-btn-text: #FFFFFF;
+  --color-footer-border: #E5E5E5;
+  --color-tag-pink: #FF6B6B;
+  --color-tag-green: #4CAF50;
+  --color-tag-blue: #2196F3;
+  --color-tag-orange: #FF9800;
+
+  /* 间距 */
+  --spacing-xs: 6px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 30px;
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  /* 字体 */
+  --font-family: 'Microsoft YaHei', '微软雅黑', 'PingFang SC', sans-serif;
+  --font-size-base: 14px;
+  --font-size-sm: 13px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 22px;
+  --font-size-3xl: 28px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* 布局 */
+  --layout-max-width: 1100px;
+  --layout-navbar-height: 52px;
+  --layout-content-padding: 20px;
+
+  /* 卡片 */
+  --card-padding: 16px;
+  --card-gap: 12px;
+
+  /* 头像 */
+  --avatar-radius: 50%;
+  --avatar-size-sm: 36px;
+  --avatar-size-md: 48px;
+
+  /* 动画 */
+  --transition-speed: 0.2s;
+}
+
+/* 暗色模式在2013风格下不生效，强制亮色 */
+[data-theme="modern"].dark {
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F7;
+  --color-bg-tertiary: #EEEEF0;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-border: #E5E5E5;
+}

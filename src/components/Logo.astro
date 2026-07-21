@@ -8,27 +8,57 @@ interface Props {
 const { width = 200, height = 200, class: className = '' } = Astro.props;
 ---
 
-<div 
-  class:list={["flex flex-col items-center justify-center space-y-3", className]}
+<div
+  class:list={["logo-container", className]}
   style={`width: ${width}px;`}
 >
-  <img 
-    src="/images/logo/mfbarlogo.png" 
-    alt="MF Bar Logo" 
-    class="w-full h-auto drop-shadow-lg transition-all duration-300 dark:brightness-110"
+  <img
+    src="/images/logo/mfbarlogo.png"
+    alt="MF Bar Logo"
+    class="logo-image"
     style={`max-width: ${width}px;`}
   />
-  
-  <div class="flex flex-col items-center space-y-1 text-center">
-    <span class="text-2xl font-bold tracking-[0.3em] bg-gradient-to-r from-[var(--color-accent)] to-blue-400 bg-clip-text text-transparent">
-      二十周年
-    </span>
-    <span class="text-sm font-medium tracking-widest text-[var(--color-text-secondary)] opacity-80 dark:text-white/60">
-      2006 - 2026
-    </span>
+
+  <div class="logo-text">
+    <span class="logo-title">二十周年</span>
+    <span class="logo-subtitle">2006 - 2026</span>
   </div>
 </div>
 
 <style>
-  /* 这里的样式主要由 Tailwind 处理，如果需要特殊的滤镜效果可以在此添加 */
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .logo-image {
+    width: 100%;
+    height: auto;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .logo-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+  }
+
+  .logo-subtitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
 </style>

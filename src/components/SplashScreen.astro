@@ -10,10 +10,10 @@ const { duration = 3500 } = Astro.props;
 
 <div
   id="splash-screen"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-bg-primary)]/80 backdrop-blur-2xl cursor-pointer select-none"
+  class="splash-screen"
 >
-  <div class="animate-scale-in">
-    <Logo width={320} height={320} />
+  <div class="splash-content">
+    <Logo width={280} height={280} />
   </div>
 </div>
 
@@ -41,13 +41,12 @@ const { duration = 3500 } = Astro.props;
     const hideSplash = () => {
       if (isDismissed) return;
       isDismissed = true;
-      
-      splash.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+
+      splash.style.transition = 'opacity 0.4s ease';
       splash.style.opacity = '0';
-      splash.style.backdropFilter = 'blur(0px)';
 
       if (navbar) {
-        navbar.style.transition = 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        navbar.style.transition = 'opacity 0.4s ease';
         navbar.style.opacity = '1';
         navbar.style.pointerEvents = '';
       }
@@ -66,7 +65,23 @@ const { duration = 3500 } = Astro.props;
 </script>
 
 <style>
-  @keyframes scaleIn {
+  .splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-primary);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .splash-content {
+    animation: splashFadeIn 0.5s ease-out forwards;
+  }
+
+  @keyframes splashFadeIn {
     from {
       transform: scale(0.9);
       opacity: 0;
@@ -75,9 +90,5 @@ const { duration = 3500 } = Astro.props;
       transform: scale(1);
       opacity: 1;
     }
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.5s ease-out forwards;
   }
 </style>

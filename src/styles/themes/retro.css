@@ -1,0 +1,86 @@
+/* 风格1: 复古2006 — 百度贴吧早期 Web 风格 */
+[data-theme="retro"] {
+  /* 颜色 */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F5;
+  --color-bg-tertiary: #F0F5FF;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-accent: #0000cc;
+  --color-accent-hover: #1D4E89;
+  --color-border: #E1E1E1;
+  --color-link: #2664C7;
+  --color-link-hover: #1D4E89;
+  --color-nav-bg: #5089e6;
+  --color-nav-bg-end: #1b59c1;
+  --color-nav-text: #FFFFFF;
+  --color-nav-active-bg: rgba(255, 255, 255, 0.2);
+  --color-card-bg: #f7f9ff;
+  --color-card-border: #E1E1E1;
+  --color-row-alt: #EEEEEE;
+  --color-btn-bg: #0000cc;
+  --color-btn-bg-hover: #00008c;
+  --color-btn-text: #FFFFFF;
+  --color-footer-border: #E1E1E1;
+
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 10px;
+  --spacing-lg: 14px;
+  --spacing-xl: 20px;
+
+  /* 圆角 */
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-full: 0px;
+
+  /* 阴影 */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+
+  /* 字体 */
+  --font-family: 'SimSun', '宋体', 'Songti SC', serif;
+  --font-size-base: 12px;
+  --font-size-sm: 12px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+  --font-size-2xl: 18px;
+  --font-size-3xl: 22px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 400;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 700;
+
+  /* 布局 */
+  --layout-max-width: 1100px;
+  --layout-navbar-height: 36px;
+  --layout-content-padding: 10px;
+
+  /* 卡片 */
+  --card-padding: 8px;
+  --card-gap: 0px;
+
+  /* 头像 */
+  --avatar-radius: 0px;
+  --avatar-size-sm: 32px;
+  --avatar-size-md: 48px;
+
+  /* 动画 */
+  --transition-speed: 0s;
+}
+
+/* 暗色模式在复古风格下不生效，强制亮色 */
+[data-theme="retro"].dark {
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F5;
+  --color-bg-tertiary: #F0F5FF;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-border: #E1E1E1;
+}

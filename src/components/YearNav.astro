@@ -10,19 +10,17 @@ const { years } = Astro.props;
 const sortedYears = [...years].sort((a, b) => a.year - b.year);
 ---
 
-<div class="year-nav fixed right-6 top-1/2 z-30 hidden -translate-y-1/2 lg:block">
-  <ul class="card !rounded-2xl !bg-[var(--color-bg-secondary)]/30 !p-2 space-y-1 text-center border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 hover:!transform-none">
+<div class="year-nav" id="year-nav">
+  <ul class="year-nav-list">
     {
       sortedYears.map((yearInfo) => (
         <li>
           <a
             href={`#year-${yearInfo.year}`}
-            class="year-nav-link group relative block px-3 py-1.5 text-xs font-semibold text-[var(--color-text-muted)] transition-all duration-300 rounded-lg overflow-hidden"
+            class="year-nav-link"
             data-year={yearInfo.year}
           >
-            <span class="relative z-10">{yearInfo.year}</span>
-            <span class="active-glass absolute inset-0 bg-white/60 dark:bg-white/6 backdrop-blur-md border border-white/70 dark:border-white/10 shadow-[inset_0_1px_3px_rgba(255,255,255,0.68),0_6px_16px_rgba(0,0,0,0.14)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.18),0_2px_8px_rgba(0,0,0,0.18)] opacity-0 transition-all duration-300"></span>
-            <span class="hover-glass absolute inset-0 rounded-lg bg-white/0 border border-transparent backdrop-blur-none transition-all duration-300 group-hover:bg-white/35 dark:group-hover:bg-white/4 group-hover:backdrop-blur-[12px] dark:group-hover:backdrop-blur-[8px] group-hover:border-white/50 dark:group-hover:border-white/10 group-hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.7),0_4px_12px_rgba(0,0,0,0.12)] dark:group-hover:shadow-sm"></span>
+            {yearInfo.year}
           </a>
         </li>
       ))
@@ -30,65 +28,131 @@ const sortedYears = [...years].sort((a, b) => a.year - b.year);
   </ul>
 </div>
 
+<style>
+  .year-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    z-index: 30;
+    transform: translateY(-50%);
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .year-nav {
+      display: block;
+    }
+  }
+
+  .year-nav-list {
+    list-style: none;
+    padding: 6px;
+    margin: 0;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .year-nav-link {
+    display: block;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .year-nav-link:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+  }
+
+  .year-nav-link.active {
+    color: var(--color-accent);
+    background: var(--color-bg-tertiary);
+  }
+
+  /* === 风格覆盖 === */
+
+  /* 复古2006: 无装饰，方形 */
+  :global([data-theme="retro"]) .year-nav-list {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  :global([data-theme="retro"]) .year-nav-link {
+    border-radius: 0;
+  }
+
+  /* 现代2013: 药丸形 */
+  :global([data-theme="modern"]) .year-nav-link.active {
+    color: #FFFFFF;
+    background: var(--color-accent);
+    border-radius: var(--radius-full);
+  }
+
+  /* 复古2006: 默认隐藏年份导航（该风格的时间线不是左右交替式） */
+  :global([data-theme="retro"]) .year-nav {
+    display: none;
+  }
+</style>
+
 <script>
   let isScrolling = false;
   let scrollTimeout: number | null = null;
-  
+
   function setActiveYear(year: string) {
     const links = document.querySelectorAll('.year-nav-link');
     links.forEach((link) => {
-      const activeGlass = link.querySelector('.active-glass');
       const isTarget = link.getAttribute('data-year') === year;
-      
-      if (isTarget && activeGlass) {
-        activeGlass.classList.remove('opacity-0');
-        activeGlass.classList.add('opacity-100');
-        link.classList.remove('text-[var(--color-text-muted)]');
-        link.classList.add('text-[var(--color-text-primary)]');
-      } else if (activeGlass) {
-        activeGlass.classList.remove('opacity-100');
-        activeGlass.classList.add('opacity-0');
-        link.classList.remove('text-[var(--color-text-primary)]');
-        link.classList.add('text-[var(--color-text-muted)]');
+
+      if (isTarget) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
   }
-  
+
   function updateActiveYear() {
     if (isScrolling) return;
-    
+
     const sections = document.querySelectorAll('[id^="year-"]');
     if (sections.length === 0) return;
-    
+
     const navbarHeight = 64;
     const viewportHeight = window.innerHeight;
     let currentYear: string | null = null;
-    
+
     for (const section of sections) {
-      const dot = section.querySelector('.timeline-dot');
-      if (!dot) continue;
-      
-      const rect = dot.getBoundingClientRect();
+      const rect = section.getBoundingClientRect();
       const isInViewport = rect.top >= navbarHeight && rect.top < viewportHeight;
-      
+
       if (isInViewport) {
         currentYear = section.id.replace('year-', '');
         break;
       }
     }
-    
+
     if (currentYear) {
       setActiveYear(currentYear);
     }
   }
-  
+
   document.querySelectorAll('.year-nav-link').forEach((link) => {
     link.addEventListener('click', (e) => {
       const year = link.getAttribute('data-year');
       if (year) {
         isScrolling = true;
         setActiveYear(year);
-        
+
         if (scrollTimeout) {
           clearTimeout(scrollTimeout);
         }
@@ -98,7 +162,7 @@ const sortedYears = [...years].sort((a, b) => a.year - b.year);
       }
     });
   });
-  
+
   window.addEventListener('scroll', updateActiveYear);
   document.addEventListener('DOMContentLoaded', updateActiveYear);
 </script>

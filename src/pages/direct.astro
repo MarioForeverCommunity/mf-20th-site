@@ -3,25 +3,103 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="MF Direct" description="永吧二十周年作品直面会">
-  <div class="min-h-screen pt-20">
-    <section class="px-4 py-12">
-      <div class="mx-auto max-w-4xl text-center">
-        <h1 class="mb-4 text-3xl font-bold text-[var(--color-text-primary)] md:text-4xl">Mario Forever Direct</h1>
-        <p class="text-lg leading-relaxed text-[var(--color-text-secondary)]">永吧二十周年作品直面会</p>
+  <div class="page-content">
+    <section class="page-header">
+      <div class="section-inner">
+        <h1 class="page-title">Mario Forever Direct</h1>
+        <p class="page-desc">永吧二十周年作品直面会</p>
       </div>
     </section>
 
-    <section class="mx-auto max-w-4xl px-4 pb-16">
-      <div class="card flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
-        <div class="mb-6 text-6xl drop-shadow-sm">🎬</div>
-        <h2 class="mb-3 text-xl font-semibold text-[var(--color-text-primary)]">敬请期待</h2>
-        <p class="mb-6 max-w-md leading-relaxed text-[var(--color-text-secondary)]">
-          Mario Forever Direct 正在筹备中，预计将于 8 月 19 日直播放映，敬请期待！
-        </p>
-        <div class="flex gap-4">
-          <a href="/" class="btn-primary">返回首页</a>
+    <section class="direct-section">
+      <div class="section-inner">
+        <div class="card direct-card">
+          <div class="direct-icon">🎬</div>
+          <h2 class="direct-title">敬请期待</h2>
+          <p class="direct-desc">
+            Mario Forever Direct 正在筹备中，预计将于 8 月 19 日直播放映，敬请期待！
+          </p>
+          <div class="direct-actions">
+            <a href="/" class="btn-primary">返回首页</a>
+          </div>
         </div>
       </div>
     </section>
   </div>
 </BaseLayout>
+
+<style>
+  .page-content {
+    min-height: 100vh;
+    padding-top: var(--layout-navbar-height);
+  }
+
+  .section-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-content-padding);
+  }
+
+  .page-header {
+    padding: 36px 0;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0 0 8px;
+  }
+
+  .page-desc {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .direct-section {
+    padding-bottom: 48px;
+  }
+
+  .direct-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+  }
+
+  .direct-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+
+  .direct-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .direct-desc {
+    max-width: 400px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .direct-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* === 风格覆盖 === */
+
+  /* 复古2006 */
+  :global([data-theme="retro"]) .direct-card {
+    border-radius: 0;
+    box-shadow: none;
+  }
+</style>

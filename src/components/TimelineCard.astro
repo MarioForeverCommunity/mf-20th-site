@@ -13,84 +13,409 @@ const { item, isLeft, index, showYear, isLast = false } = Astro.props;
 ---
 
 <div
-  class="timeline-card-wrapper relative h-full w-full"
+  class:list={[
+    'timeline-card-wrapper',
+    index % 2 !== 0 && 'row-odd',
+    isLast && 'is-last',
+  ]}
   data-position={isLast ? 'center' : isLeft ? 'left' : 'right'}
-  style={`animation-delay: ${index * 0.1}s`}
+  style={`--card-delay: ${index * 0.1}s`}
 >
-  {
-    isLast ? (
-      <div class="timeline-ellipsis-mobile absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 md:hidden">
-        <div class="flex items-center justify-center rounded-full bg-[var(--color-accent)] px-3 py-1 ring-4 ring-white/20 backdrop-blur-md">
-          <span class="text-xs font-semibold text-white">……</span>
-        </div>
+  <!-- Year section header: retro bold header when showYear -->
+  {showYear && (
+    <div class="timeline-year-header">
+      <span class="year-header-text">{item.year}</span>
+    </div>
+  )}
+
+  <!-- Timeline dot/badge: center line marker -->
+  <div class="timeline-dot">
+    {isLast ? (
+      <span class="dot-ellipsis">……</span>
+    ) : showYear ? (
+      <span class="dot-year-badge">{item.year}</span>
+    ) : (
+      <span class="dot-circle"></span>
+    )}
+  </div>
+
+  <!-- Main row -->
+  <div class="timeline-row">
+    <!-- Sequential number: retro -->
+    <span class="timeline-seq">{index + 1}</span>
+
+    <!-- Thumbnail: retro -->
+    {item.image ? (
+      <div class="timeline-thumb">
+        <img
+          src={`/images/history/${item.image}`}
+          alt={item.title}
+          class="thumb-img"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        />
       </div>
     ) : (
-      <div class="timeline-dot absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-        {
-          showYear ? (
-            <div class="flex items-center justify-center rounded-full bg-[var(--color-accent)] px-3 py-1 ring-4 ring-white/20 backdrop-blur-md shadow-[0_2px_8px_rgba(0,113,227,0.3),0_4px_16px_rgba(0,113,227,0.15)]">
-              <span class="text-xs font-semibold text-white">{item.year}</span>
-            </div>
-          ) : (
-            <div class="h-4 w-4 rounded-full bg-[var(--color-accent)] ring-4 ring-white/20 backdrop-blur-md shadow-[0_2px_6px_rgba(0,113,227,0.25),0_4px_12px_rgba(0,113,227,0.1)]"></div>
-          )
-        }
+      <div class="timeline-thumb timeline-thumb-placeholder">
+        <span class="placeholder-icon">暂无图片</span>
       </div>
-    )
-  }
+    )}
 
-  <div
-    class:list={[
-      'timeline-content relative pl-12 md:pl-0',
-      isLeft ? 'md:text-right' : 'md:text-left',
-    ]}
-  >
-    <div
-      class:list={[
-        'timeline-card card inline-block w-full p-4 text-left md:p-6 lg:max-w-[26rem]',
-        isLeft ? 'md:ml-auto' : 'md:mr-auto',
-        isLast && 'md:text-center',
-      ]}
-    >
-      <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">{item.title}</h3>
-      <p class="text-sm text-[var(--color-text-secondary)]">{item.description}{item.link && <a href={item.link} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-[var(--color-accent)] hover:underline">了解详情&gt;&gt;</a>}</p>
-      {
-        item.image && (
-          <div class="mt-3">
-            <img
-              src={`/images/history/${item.image}`}
-              alt={item.title}
-              class="timeline-img h-40 w-full cursor-zoom-in rounded-lg bg-[var(--color-bg-secondary)] object-contain shadow-[0_2px_8px_rgba(0,0,0,0.06),0_4px_16px_rgba(0,0,0,0.04)] transition-transform hover:scale-[1.02] md:h-48"
-              loading="lazy"
-            />
-          </div>
-        )
-      }
+    <!-- Year badge: retro row badge, modern pill -->
+    <span class="timeline-year-badge">{isLast ? '……' : item.year}</span>
+
+    <!-- Card body -->
+    <div class="timeline-card">
+      <h3 class="timeline-title">
+        {item.link ? (
+          <a href={item.link} target="_blank" rel="noopener noreferrer" class="title-link">{item.title}</a>
+        ) : (
+          item.title
+        )}
+      </h3>
+      <p class="timeline-desc">
+        {item.description}
+        {item.link && (
+          <a href={item.link} target="_blank" rel="noopener noreferrer" class="desc-link">了解详情&gt;&gt;</a>
+        )}
+      </p>
+      {item.image && (
+        <div class="timeline-image">
+          <img
+            src={`/images/history/${item.image}`}
+            alt={item.title}
+            class="timeline-img"
+            loading="lazy"
+          />
+        </div>
+      )}
     </div>
 
-    {
-      isLast && (
-        <div class="timeline-ellipsis mt-8 hidden justify-center md:flex">
-          <div class="flex items-center justify-center rounded-full bg-[var(--color-accent)] px-3 py-1">
-            <span class="text-xs font-semibold text-white">……</span>
-          </div>
-        </div>
-      )
-    }
+    <!-- Year right column: retro -->
+    <span class="timeline-year-right">{item.year}</span>
   </div>
 </div>
 
-<div id="image-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-white/90 dark:bg-black/80 p-4 backdrop-blur-md">
-  <img id="modal-image" src="" alt="" class="max-h-[90vh] max-w-[90vw] rounded-xl object-contain shadow-[0_8px_32px_rgba(0,0,0,0.12),0_16px_64px_rgba(0,0,0,0.08)] ring-1 ring-black/5 dark:ring-white/10" />
-</div>
-
 <style>
+  /* ================================================================
+     Base / Reset styles
+     ================================================================ */
   .timeline-card-wrapper {
-    opacity: 0;
-    animation: slideIn 0.5s ease-out forwards;
+    position: relative;
+    width: 100%;
   }
 
-  @keyframes slideIn {
+  /* Hide theme-specific elements by modern */
+  .timeline-year-header,
+  .timeline-dot,
+  .timeline-seq,
+  .timeline-thumb,
+  .timeline-year-badge,
+  .timeline-year-right,
+  .timeline-image {
+    display: none;
+  }
+
+  /* Placeholder icon hidden by modern, only shows in retro */
+  .placeholder-icon {
+    display: none;
+  }
+
+  /* Base row layout */
+  .timeline-row {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  /* Base card */
+  .timeline-card {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .timeline-title {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.4;
+  }
+
+  .timeline-desc {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .title-link {
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .title-link:hover {
+    color: var(--color-accent);
+  }
+
+  .desc-link {
+    color: var(--color-accent);
+    white-space: nowrap;
+    margin-left: var(--spacing-xs);
+  }
+
+  .desc-link:hover {
+    text-decoration: underline;
+  }
+
+  .timeline-img {
+    width: 100%;
+    object-fit: contain;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Dot elements (alternating timeline) */
+  .dot-year-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .dot-circle {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .dot-ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: #fff;
+  }
+
+  /* ================================================================
+     1. retro — Traditional list layout
+     ================================================================ */
+
+  /* Year section header */
+  :global([data-theme="retro"]) .timeline-year-header {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    padding: var(--spacing-sm) 0 var(--spacing-xs);
+    border-bottom: 1px solid var(--color-accent);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  /* Row: (thumbnail) | content */
+  :global([data-theme="retro"]) .timeline-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  /* Zebra striping */
+  :global([data-theme="retro"]) .row-odd .timeline-row {
+    background-color: var(--color-row-alt);
+  }
+
+  /* Hide year badge in each row (already shown in header) */
+  :global([data-theme="retro"]) .timeline-year-badge {
+    display: none;
+  }
+
+  /* Thumbnail: desktop only */
+  :global([data-theme="retro"]) .timeline-thumb {
+    display: none;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-secondary);
+  }
+
+  @media (min-width: 768px) {
+    :global([data-theme="retro"]) .timeline-thumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  :global([data-theme="retro"]) .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+
+  /* Placeholder for items without image */
+  :global([data-theme="retro"]) .timeline-thumb-placeholder {
+    cursor: modern;
+  }
+
+  :global([data-theme="retro"]) .placeholder-icon {
+    display: inline;
+    font-size: 12px;
+    opacity: 0.4;
+  }
+
+  /* Card: no card styling */
+  :global([data-theme="retro"]) .timeline-card {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Title: compact */
+  :global([data-theme="retro"]) .timeline-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  /* Description */
+  :global([data-theme="retro"]) .timeline-desc {
+    font-size: var(--font-size-sm);
+  }
+
+  /* Image: mobile only, full width below description */
+  :global([data-theme="retro"]) .timeline-image {
+    display: block;
+    margin-top: var(--spacing-xs);
+  }
+
+  @media (min-width: 768px) {
+    :global([data-theme="retro"]) .timeline-image {
+      display: none;
+    }
+  }
+
+  :global([data-theme="retro"]) .timeline-img {
+    height: auto;
+    border-radius: 0;
+    cursor: zoom-in;
+  }
+
+  /* No animation */
+  :global([data-theme="retro"]) .timeline-card-wrapper {
+    opacity: 1;
+  }
+
+  /* Title link: styled as plain text */
+  :global([data-theme="retro"]) .title-link {
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  :global([data-theme="retro"]) .title-link:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  /* ================================================================
+     2. modern — Card flow (mobile) / Alternating timeline (desktop)
+     ================================================================ */
+
+  /* --- Mobile: year pill | card flow --- */
+  :global([data-theme="modern"]) .timeline-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  /* Year badge as colored pill (mobile only, desktop uses dot) */
+  :global([data-theme="modern"]) .timeline-year-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    color: #fff;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-width: 3em;
+    margin-top: var(--spacing-sm);
+  }
+
+  /* Card: shadow + rounded corners */
+  :global([data-theme="modern"]) .timeline-card {
+    flex: 1;
+    min-width: 0;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--card-padding);
+    transition: box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  }
+
+  :global([data-theme="modern"]) .timeline-card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Title */
+  :global([data-theme="modern"]) .timeline-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Description */
+  :global([data-theme="modern"]) .timeline-desc {
+    font-size: var(--font-size-base);
+  }
+
+  /* Image within card */
+  :global([data-theme="modern"]) .timeline-image {
+    display: block;
+    margin-top: var(--spacing-md);
+  }
+
+  :global([data-theme="modern"]) .timeline-img {
+    height: 12rem;
+    border-radius: var(--radius-md);
+    cursor: zoom-in;
+  }
+
+  /* Fade-in-up animation */
+  :global([data-theme="modern"]) .timeline-card-wrapper {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+    animation-delay: var(--card-delay);
+  }
+
+  @keyframes fadeInUp {
     from {
       opacity: 0;
       transform: translateY(20px);
@@ -101,96 +426,110 @@ const { item, isLeft, index, showYear, isLast = false } = Astro.props;
     }
   }
 
+  /* Title link: styled as plain text */
+  :global([data-theme="modern"]) .title-link {
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  :global([data-theme="modern"]) .title-link:hover {
+    color: var(--color-accent);
+  }
+
+  /* --- Desktop: alternating timeline with center line --- */
   @media (min-width: 768px) {
-    .timeline-content {
+    :global([data-theme="modern"]) .timeline-year-badge {
+      display: none;
+    }
+
+    :global([data-theme="modern"]) .timeline-dot {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    :global([data-theme="modern"]) .timeline-row {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       width: calc(50% - 1.25rem);
+      gap: 0;
+      padding-left: 0;
     }
 
-    .timeline-card-wrapper[data-position='left'] .timeline-content {
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='left'] .timeline-row {
       right: calc(50% + 1.25rem);
-      text-align: right;
+      left: auto;
     }
 
-    .timeline-card-wrapper[data-position='right'] .timeline-content {
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='right'] .timeline-row {
       left: calc(50% + 1.25rem);
-      text-align: left;
     }
 
-    .timeline-card-wrapper[data-position='center'] .timeline-content {
-      left: 50%;
-      transform: translate(-50%, -50%);
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='center'] {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='center'] .timeline-row {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
       text-align: center;
-      width: auto;
+      width: 100%;
+      order: 1;
     }
 
-    .timeline-card-wrapper[data-position='center'] .timeline-card {
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='left'] .timeline-card {
+      margin-left: auto;
+    }
+
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='right'] .timeline-card {
+      margin-right: 0;
+    }
+
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='center'] .timeline-card {
       margin: 0 auto;
+    }
+
+    /* 最后一个 dot: 定位在卡片下方, 留出间距 */
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='center'] .timeline-dot {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      order: 2;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+    }
+
+    :global([data-theme="modern"]) .timeline-img {
+      height: 10rem;
+      border-radius: var(--radius-lg);
     }
   }
 
   @media (min-width: 1024px) {
-    .timeline-content {
+    :global([data-theme="modern"]) .timeline-row {
       width: calc(50% - 0.75rem);
     }
 
-    .timeline-card-wrapper[data-position='left'] .timeline-content {
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='left'] .timeline-row {
       right: calc(50% + 0.75rem);
     }
 
-    .timeline-card-wrapper[data-position='right'] .timeline-content {
+    :global([data-theme="modern"]) .timeline-card-wrapper[data-position='right'] .timeline-row {
       left: calc(50% + 0.75rem);
     }
-  }
 
-  @media (max-width: 768px) {
-    .timeline-dot {
-      left: 16px;
-      transform: translateY(-50%);
+    :global([data-theme="modern"]) .timeline-card {
+      max-width: 26rem;
     }
-
-    .timeline-ellipsis-mobile {
-      left: 16px;
-    }
-  }
-
-  #image-modal.active {
-    display: flex;
   }
 </style>
-
-<script>
-  const modal = document.getElementById('image-modal');
-  const modalImage = document.getElementById('modal-image') as HTMLImageElement;
-
-  document.querySelectorAll('.timeline-img').forEach((img) => {
-    img.addEventListener('click', () => {
-      if (modal && modalImage) {
-        modalImage.src = (img as HTMLImageElement).src;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
-
-  function closeModal() {
-    if (modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
-  });
-</script>

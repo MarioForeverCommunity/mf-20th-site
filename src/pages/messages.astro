@@ -8,24 +8,96 @@ const messages = await loadYaml<MessageItem[]>('messages.yaml');
 ---
 
 <BaseLayout title="成员寄语" description="永吧吧友们的祝福与心声">
-  <div class="min-h-screen pt-20">
-    <section class="px-4 py-12">
-      <div class="mx-auto max-w-4xl text-center">
-        <h1 class="mb-4 text-3xl font-bold text-[var(--color-text-primary)] md:text-4xl">成员寄语</h1>
-        <p class="text-lg leading-relaxed text-[var(--color-text-secondary)]">吧友们的心声与祝福，共同庆祝永吧二十周年</p>
+  <div class="page-content">
+    <section class="page-header">
+      <div class="section-inner">
+        <h1 class="page-title">成员寄语</h1>
+        <p class="page-desc">吧友们的心声与祝福，共同庆祝永吧二十周年</p>
       </div>
     </section>
 
-    <section class="mx-auto max-w-6xl px-4 pb-16">
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {messages.map((message, index) => <MessageCard message={message} index={index} />)}
-      </div>
+    <section class="messages-section">
+      <div class="section-inner">
+        <div class="messages-grid">
+          {messages.map((message, index) => <MessageCard message={message} index={index} />)}
+        </div>
 
-      <div class="mt-12 text-center">
-        <p class="text-sm text-[var(--color-text-muted)]">
-          想要留下你的祝福？请联系吧务团队添加你的寄语。
-        </p>
+        <div class="messages-footer">
+          <p class="footer-note">
+            想要留下你的祝福？请联系吧务团队添加你的寄语。
+          </p>
+        </div>
       </div>
     </section>
   </div>
 </BaseLayout>
+
+<style>
+  .page-content {
+    min-height: 100vh;
+    padding-top: var(--layout-navbar-height);
+  }
+
+  .section-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-content-padding);
+  }
+
+  .page-header {
+    padding: 36px 0;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0 0 8px;
+  }
+
+  .page-desc {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .messages-section {
+    padding-bottom: 48px;
+  }
+
+  .messages-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .messages-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .messages-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .messages-footer {
+    margin-top: 36px;
+    text-align: center;
+  }
+
+  .footer-note {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* === 风格覆盖 === */
+
+  /* 复古2006: 双列但紧凑 */
+  :global([data-theme="retro"]) .messages-grid {
+    gap: 2px;
+  }
+</style>

@@ -33,28 +33,30 @@ let usernames = getAvatarUsernames();
 <BaseLayout title="首页">
   <SplashScreen />
 
-  <div class="min-h-screen pt-20">
-    <section class="flex flex-col items-center justify-center px-4 pt-16">
-      <div class="mb-8">
+  <div class="page-content">
+    <!-- Hero -->
+    <section class="hero-section">
+      <div class="hero-logo">
         <Logo width={280} height={280} />
       </div>
-      <p class="mb-8 max-w-2xl text-center text-lg leading-relaxed text-[var(--color-text-secondary)]">
+      <p class="hero-desc">
         2006 - 2026，二十年风雨同舟，感谢每一位吧友的陪伴与支持。
       </p>
     </section>
 
-    <section class="relative overflow-hidden px-4 py-8">
-      <div class="mx-auto max-w-6xl">
-        <h2 class="mb-2 text-center text-2xl font-semibold text-[var(--color-text-primary)]">吧友头像墙</h2>
-        <p class="mb-4 text-center text-sm text-[var(--color-text-muted)]">
+    <!-- 头像墙 -->
+    <section class="avatar-section">
+      <div class="section-inner">
+        <h2 class="section-title">吧友头像墙</h2>
+        <p class="section-desc">
           头像为随机选取，大小完全随机，无任何特定暗示或含义；吧友众多，难免存在遗漏，敬请见谅！
         </p>
-        <div class="mb-6 flex justify-center">
+        <div class="avatar-refresh">
           <button
             id="refresh-avatar-btn"
-            class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2 text-sm text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] active:scale-95"
+            class="refresh-btn"
           >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
               <path d="M3 3v5h5" />
               <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
@@ -65,10 +67,10 @@ let usernames = getAvatarUsernames();
         </div>
         {
           usernames.length > 0 ? (
-            <div class="flex justify-center">
-              <AvatarCluster 
-                usernames={usernames} 
-                width={1000} 
+            <div class="avatar-wrapper">
+              <AvatarCluster
+                usernames={usernames}
+                width={1000}
                 height={600}
                 mobileWidth={360}
                 mobileHeight={400}
@@ -76,33 +78,36 @@ let usernames = getAvatarUsernames();
               />
             </div>
           ) : (
-            <div class="rounded-lg bg-[var(--color-bg-secondary)] p-8 text-center">
-              <p class="text-[var(--color-text-muted)]">暂无头像数据，请将头像文件放入 public/images/avatars/ 目录</p>
+            <div class="card empty-avatars">
+              <p class="section-desc">暂无头像数据，请将头像文件放入 public/images/avatars/ 目录</p>
             </div>
           )
         }
       </div>
     </section>
 
-    <section class="mx-auto max-w-4xl px-4 pt-8 pb-16">
-      <div class="grid gap-6 md:grid-cols-3">
-        <a href="/history" class="card group p-6 text-center">
-          <div class="mb-4 text-4xl drop-shadow-sm">📜</div>
-          <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">历史沿革</h3>
-          <p class="text-sm leading-relaxed text-[var(--color-text-secondary)]">回顾永吧二十年的发展历程</p>
-        </a>
+    <!-- 快捷入口 -->
+    <section class="quick-links">
+      <div class="section-inner">
+        <div class="links-grid">
+          <a href="/history" class="card link-card">
+            <div class="link-icon">📜</div>
+            <h3 class="link-title">历史沿革</h3>
+            <p class="link-desc">回顾永吧二十年的发展历程</p>
+          </a>
 
-        <a href="/messages" class="card group p-6 text-center">
-          <div class="mb-4 text-4xl drop-shadow-sm">💬</div>
-          <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">成员寄语</h3>
-          <p class="text-sm leading-relaxed text-[var(--color-text-secondary)]">吧友们的心声与祝福</p>
-        </a>
+          <a href="/messages" class="card link-card">
+            <div class="link-icon">💬</div>
+            <h3 class="link-title">成员寄语</h3>
+            <p class="link-desc">吧友们的心声与祝福</p>
+          </a>
 
-        <a href="/direct" class="card group p-6 text-center">
-          <div class="mb-4 text-4xl drop-shadow-sm">🎬</div>
-          <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">MF Direct</h3>
-          <p class="text-sm leading-relaxed text-[var(--color-text-secondary)]">二十周年直面会</p>
-        </a>
+          <a href="/direct" class="card link-card">
+            <div class="link-icon">🎬</div>
+            <h3 class="link-title">MF Direct</h3>
+            <p class="link-desc">二十周年直面会</p>
+          </a>
+        </div>
       </div>
     </section>
   </div>
@@ -118,3 +123,161 @@ let usernames = getAvatarUsernames();
     });
   }
 </script>
+
+<style>
+  .page-content {
+    min-height: 100vh;
+    padding-top: var(--layout-navbar-height);
+  }
+
+  .section-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-content-padding);
+  }
+
+  /* Hero */
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px var(--layout-content-padding) 24px;
+  }
+
+  .hero-logo {
+    margin-bottom: 24px;
+  }
+
+  .hero-desc {
+    max-width: 600px;
+    text-align: center;
+    font-size: var(--font-size-lg);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  /* Avatar Section */
+  .avatar-section {
+    padding: 24px 0;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+  }
+
+  .section-desc {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+  }
+
+  .avatar-refresh {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .refresh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-card-bg);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .refresh-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .refresh-btn:active {
+    transform: scale(0.97);
+  }
+
+  .refresh-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .empty-avatars {
+    text-align: center;
+    padding: 24px;
+  }
+
+  /* Quick Links */
+  .quick-links {
+    padding: 24px 0 48px;
+  }
+
+  .links-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .links-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .link-card {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .link-card:hover {
+    text-decoration: none;
+  }
+
+  .link-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .link-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .link-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* === 风格覆盖 === */
+
+  /* 复古2006: 紧凑间距，无卡片效果 */
+  :global([data-theme="retro"]) .link-card {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  :global([data-theme="retro"]) .hero-section {
+    padding: 24px var(--layout-content-padding) 12px;
+  }
+
+</style>

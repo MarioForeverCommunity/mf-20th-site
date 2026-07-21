@@ -10,31 +10,38 @@ const { message, index } = Astro.props;
 ---
 
 <div
-  class="message-card card flex flex-col overflow-hidden p-5"
+  class="message-card"
   style={`animation-delay: ${index * 0.05}s`}
 >
-  <div class="mb-4 flex items-center gap-3">
+  <div class="message-header">
     <img
       src={`/images/avatars/${message.username}.jpg`}
       alt={message.username}
-      class="h-12 w-12 rounded-full border-2 border-white/40 object-cover shadow-[0_2px_8px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-white/10"
+      class="message-avatar"
       loading="lazy"
       onerror="this.src='/images/avatars/default.svg'"
     />
-    <div>
-      <h3 class="font-semibold text-[var(--color-text-primary)]">{message.username}</h3>
-    </div>
+    <span class="message-username">{message.username}</span>
   </div>
-  <p class="flex-1 text-sm leading-relaxed text-[var(--color-text-secondary)]">"{message.content}"</p>
+  <div class="message-body">
+    <p class="message-content">"{message.content}"</p>
+  </div>
 </div>
 
 <style>
   .message-card {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
     opacity: 0;
-    animation: fadeInUp 0.4s ease-out forwards;
+    animation: msgFadeIn 0.4s ease-out forwards;
+    display: flex;
+    flex-direction: column;
   }
 
-  @keyframes fadeInUp {
+  @keyframes msgFadeIn {
     from {
       opacity: 0;
       transform: translateY(10px);
@@ -44,4 +51,62 @@ const { message, index } = Astro.props;
       transform: translateY(0);
     }
   }
+
+  .message-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--card-padding);
+    padding-bottom: 0;
+  }
+
+  .message-avatar {
+    width: var(--avatar-size-md);
+    height: var(--avatar-size-md);
+    border-radius: var(--avatar-radius);
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .message-username {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .message-body {
+    padding: var(--card-padding);
+    padding-top: 8px;
+    flex: 1;
+  }
+
+  .message-content {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  /* === 风格覆盖 === */
+
+  /* 复古2006: 传统论坛帖子，方形头像，无圆角无阴影 */
+  :global([data-theme="retro"]) .message-card {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid var(--color-border);
+  }
+
+  :global([data-theme="retro"]) .message-avatar {
+    border-radius: 0;
+    border: none;
+  }
+
+  /* 现代2013: 社交卡片，圆形头像，hover 微提升 */
+  :global([data-theme="modern"]) .message-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+
 </style>

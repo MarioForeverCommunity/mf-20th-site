@@ -185,7 +185,7 @@ const mobileAvatars = generatePuzzlePositions(
 
 <style>
   .avatar-wall {
-    background: color-mix(in srgb, var(--color-bg-secondary) 70%, var(--color-accent) 3%);
+    background: color-mix(in srgb, rgba(255, 255, 255, 0.45) 70%, #0071e3 3%);
     border: 1px solid rgba(255, 255, 255, 0.45);
     box-shadow:
       inset 0 1px 3px rgb(255 255 255 / 0.2),
@@ -210,9 +210,9 @@ const mobileAvatars = generatePuzzlePositions(
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 14% 14%, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 46%),
+      radial-gradient(circle at 14% 14%, color-mix(in srgb, #0071e3 18%, transparent), transparent 46%),
       radial-gradient(circle at 84% 82%, color-mix(in srgb, #60a5fa 14%, transparent), transparent 50%),
-      linear-gradient(138deg, color-mix(in srgb, var(--color-bg-primary) 30%, transparent) 0%, rgba(255, 255, 255, 0.08) 56%, color-mix(in srgb, var(--color-bg-primary) 25%, transparent) 100%);
+      linear-gradient(138deg, color-mix(in srgb, #ffffff 30%, transparent) 0%, rgba(255, 255, 255, 0.08) 56%, color-mix(in srgb, #ffffff 25%, transparent) 100%);
     opacity: 0.95;
     animation: wallBgShift 18s ease-in-out infinite alternate;
   }
@@ -223,15 +223,15 @@ const mobileAvatars = generatePuzzlePositions(
     pointer-events: none;
     opacity: 0.18;
     background-image:
-      linear-gradient(to right, color-mix(in srgb, var(--color-border) 50%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 50%, transparent) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in srgb, rgba(255, 255, 255, 0.4) 50%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, rgba(255, 255, 255, 0.4) 50%, transparent) 1px, transparent 1px);
     background-size: 34px 34px;
     animation: gridFloat 22s linear infinite;
   }
 
   :global(.dark) .avatar-wall-bg {
     background:
-      radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 40%),
+      radial-gradient(circle at 12% 10%, color-mix(in srgb, #0071e3 24%, transparent), transparent 40%),
       radial-gradient(circle at 82% 85%, color-mix(in srgb, #60a5fa 20%, transparent), transparent 44%),
       linear-gradient(135deg, rgba(15, 15, 20, 0.8) 0%, rgba(25, 25, 30, 0.4) 58%, rgba(10, 10, 15, 0.8) 100%);
     opacity: 0.95;
