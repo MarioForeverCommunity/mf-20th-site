@@ -88,6 +88,9 @@
   }
 
   body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     position: relative;
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
@@ -95,6 +98,12 @@
     font-size: var(--font-size-base);
     transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
     overflow-x: hidden;
+  }
+
+  main {
+    position: relative;
+    z-index: 0;
+    flex: 1;
   }
 
   ::selection {
