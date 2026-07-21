@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-- **框架**: Astro 6.x + Tailwind CSS 4.x
+- **框架**: Astro 6.x + 原生 CSS（CSS 变量 + 自定义类）
 - **包管理器**: Bun（不使用 npm/pnpm/yarn）
 - **语言**: TypeScript（严格模式）
 - **数据源**: `src/data/` 目录下的 YAML 文件
@@ -39,7 +39,7 @@ src/
 │   ├── MessageCard.astro
 │   ├── Navbar.astro
 │   ├── SplashScreen.astro
-│   ├── ThemeToggle.astro
+│   ├── StyleSwitcher.astro
 │   ├── Timeline.astro
 │   ├── TimelineCard.astro
 │   └── YearNav.astro
@@ -52,9 +52,12 @@ src/
 │   ├── history.astro
 │   ├── index.astro
 │   ├── messages.astro
-│   └── works.astro
-├── styles/        # 全局样式（Tailwind v4）
-│   └── global.css
+│   └── direct.astro
+├── styles/        # 全局样式
+│   ├── global.css
+│   └── themes/    # 主题样式
+│       ├── modern.css
+│       └── retro.css
 ├── types/         # TypeScript 类型定义
 │   ├── history.ts
 │   └── message.ts
@@ -129,40 +132,30 @@ public/
 - 组件：`PascalCase`（如 `MessageCard.astro`、`Timeline.astro`）
 - 工具函数：`camelCase`（如 `loadYaml.ts`）
 - 类型/接口：`PascalCase`（如 `MessageItem`、`HistoryItem`）
-- CSS 类：Tailwind 工具类或 kebab-case 自定义类
+- CSS 类：kebab-case 自定义类
 
 ### Astro 配置
 
 - 开发服务器绑定所有主机（`host: true`）
 - 自定义 YAML HMR 插件监听 `.yaml`/`.yml` 文件变更
-- Tailwind 通过 `@tailwindcss/vite` 插件集成
 
 ## 主题配置
 
-项目使用玻璃拟态设计风格，支持亮色/深色模式切换。
+项目通过 `StyleSwitcher` 组件切换主题。仅支持亮色模式。
 
 ### 颜色变量
 
 ```css
-/* 亮色模式 */
 --color-bg-primary: #ffffff
---color-bg-secondary: rgba(255, 255, 255, 0.45)
---color-text-primary: #1d1d1f
---color-text-secondary: #424245
---color-accent: #0071e3
-
-/* 深色模式 */
---color-bg-primary: #000000
---color-bg-secondary: rgba(28, 28, 30, 0.35)
---color-text-primary: #f5f5f7
---color-text-secondary: #a1a1a6
+--color-bg-secondary: #F5F5F5
+--color-text-primary: #333333
+--color-text-secondary: #666666
+--color-accent: #2319dc
 ```
 
 ### 动画
 
-- `--animate-fade-in`: 淡入动画
-- `--animate-fade-out`: 淡出动画
-- `--animate-scale-in`: 缩放淡入动画
+动画在组件的 `<style>` 块中通过 `@keyframes` 定义。
 
 ## 快速参考
 

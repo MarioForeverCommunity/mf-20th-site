@@ -76,14 +76,3 @@
   /* 动画 */
   --transition-speed: 0.2s;
 }
-
-/* 暗色模式在2013风格下不生效，强制亮色 */
-[data-theme="modern"].dark {
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F5F5F7;
-  --color-bg-tertiary: #EEEEF0;
-  --color-text-primary: #333333;
-  --color-text-secondary: #666666;
-  --color-text-muted: #999999;
-  --color-border: #E5E5E5;
-}

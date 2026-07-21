@@ -44,7 +44,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         class="navbar-mobile-btn"
         aria-label="打开菜单"
       >
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon">
+        <svg class="menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
@@ -158,6 +158,11 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     cursor: pointer;
   }
 
+  .menu-icon {
+    width: 20px;
+    height: 20px;
+  }
+
   @media (min-width: 768px) {
     .navbar-mobile-btn {
       display: none;
@@ -175,7 +180,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     display: flex;
     flex-direction: column;
     gap: 2px;
-    border-top: 1px solid var(--color-border);
   }
 
   .mobile-link {
@@ -245,6 +249,14 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     background: transparent;
   }
 
+  :global([data-theme="modern"]) .mobile-link:hover {
+    background: var(--color-bg-tertiary);
+  }
+
+  :global([data-theme="modern"]) .mobile-menu-inner {
+    border-top: 1px solid var(--color-border);
+  }
+
 
 </style>
 
@@ -269,5 +281,19 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         }
       }
     }
+  });
+
+  // 非移动端时自动收起移动端菜单
+  const desktopQuery = window.matchMedia('(min-width: 768px)');
+  function closeMobileMenu() {
+    if (mobileMenu) {
+      mobileMenu.style.maxHeight = '0px';
+    }
+    if (menuIcon) {
+      menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+    }
+  }
+  desktopQuery.addEventListener('change', (e) => {
+    if (e.matches) closeMobileMenu();
   });
 </script>

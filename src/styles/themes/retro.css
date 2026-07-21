@@ -73,14 +73,3 @@
   /* 动画 */
   --transition-speed: 0s;
 }
-
-/* 暗色模式在复古风格下不生效，强制亮色 */
-[data-theme="retro"].dark {
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F5F5F5;
-  --color-bg-tertiary: #F0F5FF;
-  --color-text-primary: #333333;
-  --color-text-secondary: #666666;
-  --color-text-muted: #999999;
-  --color-border: #E1E1E1;
-}

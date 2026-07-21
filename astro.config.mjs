@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
 
 function yamlHmr() {
   return {
@@ -24,6 +23,6 @@ export default defineConfig({
     host: true,
   },
   vite: {
-    plugins: [tailwindcss(), yamlHmr()],
+    plugins: [yamlHmr()],
   },
 });

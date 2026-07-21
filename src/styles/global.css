@@ -1,32 +1,16 @@
-@import 'tailwindcss';
-
-@source "../**/*.{astro,html,js,ts,jsx,tsx,md,mdx}";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* 主题文件导入 */
 @import './themes/retro.css';
 @import './themes/modern.css';
 
-@theme {
-  --animate-fade-in: fadeIn 0.5s ease-in-out;
-  --animate-fade-out: fadeOut 0.5s ease-in-out forwards;
-  --animate-scale-in: scaleIn 0.3s ease-out;
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  @keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes scaleIn {
-    0% { transform: scale(0.9); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
+* {
+  margin: 0;
 }
 
 @layer base {
@@ -104,6 +88,7 @@
   }
 
   body {
+    position: relative;
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     font-family: var(--font-family);
