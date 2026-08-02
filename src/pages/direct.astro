@@ -14,7 +14,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="direct-section">
       <div class="section-inner">
         <div class="card direct-card">
-          <div class="direct-icon">🎬</div>
+          <img
+            src="/images/direct/mfd.webp"
+            alt="MF Direct Logo"
+            class="direct-logo"
+            loading="lazy"
+          />
           <h2 class="direct-title">敬请期待</h2>
           <p class="direct-desc">
             Mario Forever Direct 正在筹备中，预计将于 8 月 19 日直播放映，敬请期待！
@@ -71,9 +76,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     text-align: center;
   }
 
-  .direct-icon {
-    font-size: 3rem;
-    margin-bottom: 16px;
+  .direct-logo {
+    max-width: 240px;
+    height: auto;
+    margin-bottom: 20px;
   }
 
   .direct-title {
