@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import SideMenu from '../components/SideMenu.astro';
 
 interface Props {
   title: string;
@@ -32,10 +33,27 @@ const { title, description = '永远的玛丽吧二十周年专题主页' } = As
     </script>
   </head>
   <body>
+    <div class="top-cloud" aria-hidden="true"></div>
+    <div class="logo-bar" aria-hidden="true">
+      <div class="logo-bar-inner">
+        <img class="logo-bar-item logo-bar-left" src="/images/assets/mfcommunity.png" alt="MF Community" loading="lazy" />
+        <img class="logo-bar-item logo-bar-center" src="/images/assets/lake-wave.png" alt="Lake Wave" loading="lazy" />
+        <img class="logo-bar-item logo-bar-right" src="/images/logo/mfbarlogo.png" alt="永远的玛丽吧" loading="lazy" />
+      </div>
+    </div>
     <Navbar />
+    <SideMenu />
     <main>
       <slot />
     </main>
+    <div class="bottom-scene" aria-hidden="true">
+      <img class="skycloud skycloud-1" src="/images/assets/skycloud.png" alt="" loading="lazy" />
+      <img class="skycloud skycloud-2" src="/images/assets/skycloud.png" alt="" loading="lazy" />
+      <img class="skycloud skycloud-3" src="/images/assets/skycloud.png" alt="" loading="lazy" />
+      <img class="bottom-backcloud" src="/images/assets/backcloud.png" alt="" loading="lazy" />
+      <img class="bottom-forecloud" src="/images/assets/forecloud.png" alt="" loading="lazy" />
+      <div class="bottom-asset"></div>
+    </div>
     <Footer />
   </body>
 </html>

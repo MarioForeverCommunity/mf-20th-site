@@ -4,14 +4,15 @@
   --color-bg-primary: #FFFFFF;
   --color-bg-secondary: #F5F5F7;
   --color-bg-tertiary: #EEEEF0;
-  --color-text-primary: #333333;
-  --color-text-secondary: #666666;
-  --color-text-muted: #999999;
+  /* 文本颜色：适配蓝白渐变背景，改为浅色 */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.88);
+  --color-text-muted: rgba(255, 255, 255, 0.7);
   --color-accent: #2319dc;
   --color-accent-hover: #371cff;
   --color-border: #E5E5E5;
-  --color-link: #2319dc;
-  --color-link-hover: #371cff;
+  --color-link: #ffffff;
+  --color-link-hover: rgba(255, 255, 255, 0.8);
   --color-nav-bg: #FFFFFF;
   --color-nav-bg-end: #FFFFFF;
   --color-nav-text: #2319dc;
@@ -61,7 +62,7 @@
 
   /* 布局 */
   --layout-max-width: 1100px;
-  --layout-navbar-height: 52px;
+  --layout-navbar-height: 100px;
   --layout-content-padding: 20px;
 
   /* 卡片 */
@@ -75,4 +76,217 @@
 
   /* 动画 */
   --transition-speed: 0.2s;
+}
+
+/* 页面背景渐变 - 从窗口顶到底固定，不随页面高度和滚动影响 */
+[data-theme="modern"] body {
+  background: linear-gradient(to bottom, #002eff 0%, #d8e7ff 100%) no-repeat fixed;
+  background-attachment: fixed;
+}
+
+/* 顶部云朵条替换默认导航栏（暂时移除顶栏与导航项） */
+[data-theme="modern"] .top-cloud {
+  display: block;
+  animation: top-cloud-move 20s linear infinite;
+}
+
+/* 顶部 Logo 条：显示在云朵条图层之上 */
+[data-theme="modern"] .logo-bar {
+  display: flex;
+}
+
+[data-theme="modern"] .navbar {
+  display: none;
+}
+
+/* 暂时移除 footer，以备后续添加素材 */
+[data-theme="modern"] .site-footer {
+  display: none;
+}
+
+/* 底部场景：显示 terrarin + forecloud + backcloud */
+[data-theme="modern"] .bottom-scene {
+  display: block;
+}
+
+/* 卡片半透明 + 文字保留深色（卡片为半透明白色背景，重定义变量保证可读性） */
+[data-theme="modern"] .card,
+[data-theme="modern"] .message-card,
+[data-theme="modern"] .timeline-card,
+[data-theme="modern"] .refresh-btn,
+[data-theme="modern"] .avatar-tooltip,
+[data-theme="modern"] .year-nav {
+  --color-card-bg: rgba(255, 255, 255, 0.8);
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-link: #2319dc;
+  --color-link-hover: #371cff;
+}
+
+/* 云朵向左循环移动：图片缩放后宽 1000px，无缝循环需移动整数倍图片宽度 */
+@keyframes top-cloud-move {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -1000px;
+  }
+}
+
+/* === 侧边收纳菜单 === */
+
+/* 触发按钮：桌面端 fixed 左边缘垂直居中，跟随滚动 */
+[data-theme="modern"] .side-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  width: 40px;
+  height: 56px;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-accent);
+  cursor: pointer;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+[data-theme="modern"] .side-menu-trigger:hover {
+  background: #ffffff;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="modern"] .side-menu-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* 移动端（<600px）：fixed 贴左上角，相对顶部滚动云垂直居中，跟随滚动 */
+@media (max-width: 599px) {
+  [data-theme="modern"] .side-menu-trigger {
+    position: fixed;
+    top: calc(var(--layout-navbar-height) / 2.2);
+    transform: translateY(-50%);
+  }
+}
+
+/* 抽屉：左侧滑出，白色背景，文字深色 */
+[data-theme="modern"] .side-menu-drawer {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 240px;
+  background: var(--color-card-bg);
+  border-right: 1px solid var(--color-border);
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 70;
+  padding: 24px 0;
+  overflow-y: auto;
+  /* 抽屉内文字深色（白色背景） */
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+}
+
+[data-theme="modern"] .side-menu-drawer.open {
+  transform: translateX(0);
+}
+
+[data-theme="modern"] .side-menu-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px;
+  gap: 2px;
+}
+
+[data-theme="modern"] .side-menu-link {
+  display: block;
+  padding: 12px 16px;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-speed) ease;
+}
+
+[data-theme="modern"] .side-menu-link:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+[data-theme="modern"] .side-menu-link.active {
+  color: var(--color-accent);
+  background: rgba(35, 25, 220, 0.08);
+  font-weight: var(--font-weight-semibold);
+}
+
+[data-theme="modern"] .side-menu-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 16px 16px;
+}
+
+[data-theme="modern"] .side-menu-theme {
+  padding: 0 16px;
+}
+
+[data-theme="modern"] .side-theme-title {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 8px;
+}
+
+[data-theme="modern"] .side-theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+[data-theme="modern"] .side-theme-btn:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+[data-theme="modern"] .side-theme-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 遮罩 */
+[data-theme="modern"] .side-menu-overlay {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 65;
+}
+
+[data-theme="modern"] .side-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
 }

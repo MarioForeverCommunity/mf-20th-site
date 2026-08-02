@@ -106,6 +106,141 @@
     flex: 1;
   }
 
+  /* 顶部云朵条（默认隐藏，由具体主题控制显示） */
+  .top-cloud {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-image: url('/images/assets/topcloud.png');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    background-position: 0 0;
+    z-index: 50;
+    pointer-events: none;
+  }
+
+  /* 顶部 Logo 条（默认隐藏，由具体主题控制显示；图层位于云朵条之上） */
+  .logo-bar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 51;
+    pointer-events: none;
+    justify-content: center;
+  }
+
+  .logo-bar-inner {
+    max-width: var(--layout-max-width);
+    width: 100%;
+    padding: 15px var(--layout-content-padding);
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .logo-bar-item {
+    height: 60px;
+    width: auto;
+    display: block;
+    pointer-events: auto;
+  }
+
+  .logo-bar-center {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    transform: translateX(-50%);
+  }
+
+  /* 窄屏：只居中显示永远的玛丽吧 logo，隐藏另两个 */
+  @media (max-width: 599px) {
+    .logo-bar-left,
+    .logo-bar-center {
+      display: none;
+    }
+
+    .logo-bar-inner {
+      justify-content: center;
+    }
+  }
+
+  /* 底部场景容器（默认隐藏，由具体主题控制显示） */
+  .bottom-scene {
+    display: none;
+    position: relative;
+    width: 100%;
+  }
+
+  /* terrarin：图层最高，缩小后水平循环拼接 */
+  .bottom-asset {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 480px;
+    background-image: url('/images/assets/terrarin.png');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    background-position: calc(50% + 130px) 0;
+    overflow: hidden;
+  }
+
+  /* forecloud：图层低于 terrarin，贴底居中显示，与地形重叠，不平铺 */
+  .bottom-forecloud {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    left: calc(50% + 150px);
+    transform: translateX(-50%);
+    height: 372px;
+    width: auto;
+    display: block;
+  }
+
+  /* backcloud：图层最低，贴底位于 forecloud 以左 260px，与地形重叠，不平铺 */
+  .bottom-backcloud {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: calc(50% + 40px);
+    transform: translateX(-50%);
+    height: 372px;
+    width: auto;
+    display: block;
+  }
+
+  /* skycloud：天空小云，3 朵随机分布，宽度统一 90px，图层最高确保可见 */
+  .skycloud {
+    position: absolute;
+    z-index: 4;
+    width: 72px;
+    height: auto;
+    display: block;
+  }
+
+  .skycloud-1 { left: 10%; top: 25px; }
+  .skycloud-2 { left: 32%; top: 85px; }
+  .skycloud-3 { left: 83%; top: 45px; }
+
+  /* 窄屏：隐藏 skycloud，避免拥挤 */
+  @media (max-width: 767px) {
+    .skycloud {
+      display: none;
+    }
+  }
+
+  /* 侧边收纳菜单（默认隐藏，由 modern 主题控制显示） */
+  .side-menu-trigger,
+  .side-menu-drawer,
+  .side-menu-overlay {
+    display: none;
+  }
+
   ::selection {
     background-color: var(--color-accent);
     color: white;

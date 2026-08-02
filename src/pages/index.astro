@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SplashScreen from '../components/SplashScreen.astro';
 import AvatarCluster from '../components/AvatarCluster.astro';
 import Logo from '../components/Logo.astro';
 import { readdirSync, existsSync } from 'fs';
@@ -31,13 +30,26 @@ let usernames = getAvatarUsernames();
 ---
 
 <BaseLayout title="首页">
-  <SplashScreen />
-
   <div class="page-content">
     <!-- Hero -->
     <section class="hero-section">
+      <div class="countdown" id="countdown">
+        <p class="countdown-text" id="countdown-text"></p>
+      </div>
       <div class="hero-logo">
         <Logo width={280} height={280} />
+        <img
+          class="hero-logo-20th"
+          src="/images/assets/20th.png"
+          alt="永远的玛丽吧 二十周年"
+          width="1636"
+          height="356"
+          loading="lazy"
+        />
+      </div>
+      <div class="hero-title-group">
+        <h1 class="hero-title">永吧二十周年</h1>
+        <p class="hero-subtitle">2006.8.19 - 2026.8.19</p>
       </div>
       <p class="hero-desc">
         多项特别企划集中开启<br />
@@ -93,6 +105,23 @@ let usernames = getAvatarUsernames();
     <!-- 快捷入口 -->
     <section class="quick-links">
       <div class="section-inner">
+        <div class="logos-grid">
+          <div class="logo-col">
+            <a href="https://www.marioforever.net/thread-3842-1-1.html" target="_blank" rel="noopener noreferrer">
+              <img src="/images/assets/mf-speedrun-iv.png" alt="MF Speedrun IV" class="entry-logo" loading="lazy" />
+            </a>
+          </div>
+          <div class="logo-col">
+            <a href="/direct">
+              <img src="/images/direct/mfd.webp" alt="MF Direct" class="entry-logo" loading="lazy" />
+            </a>
+          </div>
+          <div class="logo-col">
+            <a href="https://pkmf.marioforever.net/" target="_blank" rel="noopener noreferrer">
+              <img src="/images/assets/pkmf.png" alt="PKMF" class="entry-logo" loading="lazy" />
+            </a>
+          </div>
+        </div>
         <div class="links-grid">
           <a href="/history" class="card link-card">
             <div class="link-icon">📜</div>
@@ -102,14 +131,20 @@ let usernames = getAvatarUsernames();
 
           <a href="/messages" class="card link-card">
             <div class="link-icon">💬</div>
-            <h3 class="link-title">成员寄语</h3>
+            <h3 class="link-title">贺图寄语</h3>
             <p class="link-desc">吧友们的心声与祝福</p>
           </a>
 
-          <a href="/direct" class="card link-card">
+          <a href="/direct" class="card link-card link-card-direct">
             <div class="link-icon">🎬</div>
             <h3 class="link-title">MF Direct</h3>
             <p class="link-desc">二十周年直面会</p>
+          </a>
+
+          <a href="/avatars" class="card link-card link-card-avatars">
+            <div class="link-icon">👥</div>
+            <h3 class="link-title">吧友头像墙</h3>
+            <p class="link-desc">吧友头像随机展示</p>
           </a>
         </div>
       </div>
@@ -125,6 +160,22 @@ let usernames = getAvatarUsernames();
         (window as any).refreshAvatarWall();
       }
     });
+  }
+
+  // 倒计时：距离建吧二十周年（2026-08-19 GMT+8）
+  const targetDate = new Date('2026-08-19T00:00:00+08:00');
+  const now = new Date();
+  const countdownText = document.getElementById('countdown-text');
+
+  if (countdownText) {
+    if (now < targetDate) {
+      const diff = targetDate.getTime() - now.getTime();
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      countdownText.textContent = `距永远的玛丽吧建吧二十周年还有 ${days} 天`;
+    } else {
+      // 8 月 19 日当天及之后显示庆祝文本
+      countdownText.textContent = '热烈庆祝永远的玛丽吧建吧二十周年！';
+    }
   }
 </script>
 
@@ -149,14 +200,76 @@ let usernames = getAvatarUsernames();
     padding: 48px var(--layout-content-padding) 24px;
   }
 
+  .countdown {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .countdown-text {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
   .hero-logo {
     margin-bottom: 24px;
+  }
+
+  /* 20th.png 默认隐藏（仅 modern 主题显示） */
+  .hero-logo-20th {
+    display: none;
+  }
+
+  /* modern 主题：用 20th.png 替换 Logo 组件 */
+  :global([data-theme="modern"]) .hero-logo {
+    width: 100%;
+  }
+
+  :global([data-theme="modern"]) .hero-logo :global(.logo-container) {
+    display: none;
+  }
+
+  :global([data-theme="modern"]) .hero-logo-20th {
+    display: block;
+    width: 1024px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* 标题组默认隐藏（retro 主题用 Logo 组件的标题） */
+  .hero-title-group {
+    display: none;
+  }
+
+  /* modern 主题：在 20th 图片下方显示标题与小字 */
+  :global([data-theme="modern"]) .hero-title-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  :global([data-theme="modern"]) .hero-title {
+    font-size: 48px;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0;
+    letter-spacing: 0.2em;
+  }
+
+  :global([data-theme="modern"]) .hero-subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin: 0;
+    letter-spacing: 0.05em;
   }
 
   .hero-desc {
     max-width: 600px;
     text-align: center;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     line-height: 1.7;
     color: var(--color-text-secondary);
   }
@@ -231,6 +344,35 @@ let usernames = getAvatarUsernames();
     padding: 24px 0 48px;
   }
 
+  .logos-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .logos-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .logo-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-col a {
+    display: inline-block;
+    line-height: 0;
+  }
+
+  .entry-logo {
+    height: 120px;
+    width: auto;
+    margin-bottom: 40px;
+  }
+
   .links-grid {
     display: grid;
     gap: var(--spacing-md);
@@ -273,6 +415,30 @@ let usernames = getAvatarUsernames();
   }
 
   /* === 风格覆盖 === */
+
+  /* modern 主题：头像墙移至独立页面 /avatars */
+  :global([data-theme="modern"]) .avatar-section {
+    display: none;
+  }
+
+  /* avatars 卡片默认隐藏（retro 显示 MF Direct 卡片） */
+  .link-card-avatars {
+    display: none;
+  }
+
+  /* modern 主题：显示 avatars 卡片，隐藏 MF Direct 卡片 */
+  :global([data-theme="modern"]) .link-card-avatars {
+    display: block;
+  }
+
+  :global([data-theme="modern"]) .link-card-direct {
+    display: none;
+  }
+
+  /* 复古2006: 不显示活动 logo */
+  :global([data-theme="retro"]) .logos-grid {
+    display: none;
+  }
 
   /* 复古2006: 紧凑间距，无卡片效果 */
   :global([data-theme="retro"]) .link-card {

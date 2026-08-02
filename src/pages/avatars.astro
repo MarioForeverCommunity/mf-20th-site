@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AvatarCluster from '../components/AvatarCluster.astro';
+import { readdirSync, existsSync } from 'fs';
+import { join } from 'path';
+
+function getAvatarUsernames(): string[] {
+  const avatarsDir = join(process.cwd(), 'public', 'images', 'avatars');
+
+  if (!existsSync(avatarsDir)) {
+    return [];
+  }
+
+  const files = readdirSync(avatarsDir);
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.svg'];
+
+  const usernames = files
+    .filter((file) => {
+      const ext = file.toLowerCase().slice(file.lastIndexOf('.'));
+      return imageExtensions.includes(ext);
+    })
+    .map((file) => file.replace(/\.[^.]+$/, ''))
+    .filter((name) => name !== 'default');
+
+  return usernames;
+}
+
+let usernames = getAvatarUsernames();
+---
+
+<BaseLayout title="吧友头像墙">
+  <script is:inline>
+    // retro 主题访问 avatars 自动跳转到首页
+    if (document.documentElement.dataset.theme !== 'modern') {
+      window.location.replace('/');
+    }
+  </script>
+
+  <div class="page-content">
+    <!-- 头像墙 -->
+    <section class="avatar-section">
+      <div class="section-inner">
+        <h1 class="section-title">吧友头像墙</h1>
+        <p class="section-desc">
+          头像为随机选取，大小完全随机，无任何特定暗示或含义；吧友众多，难免存在遗漏，敬请见谅！
+        </p>
+        <div class="avatar-refresh">
+          <button
+            id="refresh-avatar-btn"
+            class="refresh-btn"
+          >
+            <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+              <path d="M16 21h5v-5" />
+            </svg>
+            <span>换一批</span>
+          </button>
+        </div>
+        {
+          usernames.length > 0 ? (
+            <div class="avatar-wrapper">
+              <AvatarCluster
+                usernames={usernames}
+                width={1000}
+                height={600}
+                mobileWidth={360}
+                mobileHeight={400}
+                mobileMaxAvatars={35}
+              />
+            </div>
+          ) : (
+            <div class="card empty-avatars">
+              <p class="section-desc">暂无头像数据，请将头像文件放入 public/images/avatars/ 目录</p>
+            </div>
+          )
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const refreshBtn = document.getElementById('refresh-avatar-btn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => {
+      if ((window as any).refreshAvatarWall) {
+        (window as any).refreshAvatarWall();
+      }
+    });
+  }
+</script>
+
+<style>
+  .page-content {
+    min-height: 100%;
+    padding-top: var(--layout-navbar-height);
+  }
+
+  .section-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-content-padding);
+  }
+
+  /* retro 主题：隐藏内容（由 inline script 跳转到首页，避免跳转前闪烁） */
+  :global([data-theme="retro"]) .page-content {
+    display: none;
+  }
+
+  /* Avatar Section */
+  .avatar-section {
+    padding: 24px 0;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    text-align: center;
+    font-size: var(--font-size-md);
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+  }
+
+  .avatar-refresh {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .refresh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-card-bg);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .refresh-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .refresh-btn:active {
+    transform: scale(0.97);
+  }
+
+  .refresh-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .empty-avatars {
+    text-align: center;
+    padding: 24px;
+  }
+</style>

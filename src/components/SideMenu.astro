@@ -1,0 +1,116 @@
+---
+/* 侧边收纳菜单（modern 主题专用）：左侧抽屉，含导航项与风格切换 */
+const navItems = [
+  { href: '/', label: '首页' },
+  { href: '/history', label: '历史沿革' },
+  { href: '/messages', label: '贺图寄语' },
+  { href: '/avatars', label: '吧友头像墙' },
+  { href: '/direct', label: 'MF Direct' },
+];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<!-- 触发按钮：桌面端左边缘垂直居中贴边跟随滚动；移动端顶部左上角不跟随 -->
+<button
+  id="side-menu-trigger"
+  type="button"
+  class="side-menu-trigger"
+  aria-label="打开菜单"
+  aria-expanded="false"
+>
+  <svg
+    class="side-menu-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    id="side-menu-icon"
+  >
+    <path d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+</button>
+
+<!-- 左侧抽屉 -->
+<div class="side-menu-drawer" id="side-menu-drawer" aria-hidden="true">
+  <nav class="side-menu-nav">
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={['side-menu-link', currentPath === item.href && 'active']}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="side-menu-divider"></div>
+
+  <div class="side-menu-theme">
+    <p class="side-theme-title">风格切换</p>
+    <button class="side-theme-btn" type="button" data-theme-value="modern">
+      <span class="side-theme-dot" style="background: #4E71F2;"></span>
+      <span class="side-theme-label">默认</span>
+    </button>
+    <button class="side-theme-btn" type="button" data-theme-value="retro">
+      <span class="side-theme-dot" style="background: #0000cc;"></span>
+      <span class="side-theme-label">复古</span>
+    </button>
+  </div>
+</div>
+
+<!-- 遮罩 -->
+<div class="side-menu-overlay" id="side-menu-overlay" aria-hidden="true"></div>
+
+<script>
+  const trigger = document.getElementById('side-menu-trigger');
+  const drawer = document.getElementById('side-menu-drawer');
+  const overlay = document.getElementById('side-menu-overlay');
+  const icon = document.getElementById('side-menu-icon');
+
+  const iconOpen = '<path d="M4 6h16M4 12h16M4 18h16" />';
+  const iconClose = '<path d="M6 18L18 6M6 6l12 12" />';
+
+  function openDrawer() {
+    drawer?.classList.add('open');
+    overlay?.classList.add('open');
+    trigger?.setAttribute('aria-expanded', 'true');
+    drawer?.setAttribute('aria-hidden', 'false');
+    if (icon) icon.innerHTML = iconClose;
+  }
+
+  function closeDrawer() {
+    drawer?.classList.remove('open');
+    overlay?.classList.remove('open');
+    trigger?.setAttribute('aria-expanded', 'false');
+    drawer?.setAttribute('aria-hidden', 'true');
+    if (icon) icon.innerHTML = iconOpen;
+  }
+
+  trigger?.addEventListener('click', () => {
+    const isOpen = drawer?.classList.contains('open');
+    if (isOpen) closeDrawer();
+    else openDrawer();
+  });
+
+  overlay?.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  // 风格切换：设置主题后收起抽屉
+  document.querySelectorAll('.side-theme-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const value = btn.getAttribute('data-theme-value');
+      if (!value) return;
+      document.documentElement.dataset.theme = value;
+      localStorage.setItem('site-theme', value);
+      closeDrawer();
+    });
+  });
+</script>

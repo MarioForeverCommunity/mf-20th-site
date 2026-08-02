@@ -102,6 +102,19 @@ const sortedYears = [...years].sort((a, b) => a.year - b.year);
   :global([data-theme="retro"]) .year-nav {
     display: none;
   }
+
+  /* 锚点跳转时为目标年份区块留出顶部固定区域（云朵条/导航栏）的空间，避免被遮挡 */
+  :global([id^="year-"]) {
+    scroll-margin-top: var(--layout-navbar-height);
+  }
+
+  /* 桌面端 modern 主题：时间线项高度 220px，卡片位于垂直居中位置，
+     需额外留出半个时间线项高度（110px），避免卡片上半部分被云朵条遮挡 */
+  @media (min-width: 768px) {
+    :global([data-theme="modern"] [id^="year-"]) {
+      scroll-margin-top: calc(var(--layout-navbar-height) + 110px);
+    }
+  }
 </style>
 
 <script>
@@ -127,7 +140,10 @@ const sortedYears = [...years].sort((a, b) => a.year - b.year);
     const sections = document.querySelectorAll('[id^="year-"]');
     if (sections.length === 0) return;
 
-    const navbarHeight = 64;
+    // 读取当前主题的顶部固定区域高度（云朵条/导航栏），用于判断年份区块是否进入可视区
+    const navbarHeight = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--layout-navbar-height')
+    ) || 64;
     const viewportHeight = window.innerHeight;
     let currentYear: string | null = null;
 
@@ -150,8 +166,20 @@ const sortedYears = [...years].sort((a, b) => a.year - b.year);
     link.addEventListener('click', (e) => {
       const year = link.getAttribute('data-year');
       if (year) {
+        e.preventDefault();
         isScrolling = true;
         setActiveYear(year);
+
+        // 精确滚动到目标卡片顶部，确保整张卡片不被顶部云朵条遮挡
+        const targetSection = document.getElementById(`year-${year}`);
+        if (targetSection) {
+          const card = targetSection.querySelector('.timeline-card') || targetSection;
+          const navbarHeight = parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue('--layout-navbar-height')
+          ) || 64;
+          const top = card.getBoundingClientRect().top + window.scrollY - navbarHeight - 10;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
 
         if (scrollTimeout) {
           clearTimeout(scrollTimeout);
