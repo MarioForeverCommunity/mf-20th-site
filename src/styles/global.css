@@ -175,6 +175,7 @@
     display: none;
     position: relative;
     width: 100%;
+    overflow: hidden; /* 裁剪超出的云朵，防止撑大页面宽度 */
   }
 
   /* terrarin：图层最高，缩小后水平循环拼接 */
