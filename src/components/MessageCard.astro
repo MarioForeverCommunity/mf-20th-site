@@ -24,7 +24,17 @@ const { message, index } = Astro.props;
     <span class="message-username">{message.username}</span>
   </div>
   <div class="message-body">
-    <p class="message-content">"{message.content}"</p>
+    {message.content && (
+      <p class="message-content">"{message.content}"</p>
+    )}
+    {message.image && (
+      <img
+        src={`/images/messages/${message.image}`}
+        alt={`${message.username}的贺图`}
+        class="message-image"
+        loading="lazy"
+      />
+    )}
   </div>
 </div>
 
@@ -85,6 +95,15 @@ const { message, index } = Astro.props;
     font-size: var(--font-size-sm);
     line-height: 1.6;
     color: var(--color-text-secondary);
+  }
+
+  .message-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    margin-top: 12px;
+    display: block;
   }
 
   /* === 风格覆盖 === */

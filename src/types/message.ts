@@ -1,4 +1,5 @@
 export interface MessageItem {
   username: string;
-  content: string;
+  content?: string;
+  image?: string;
 }
