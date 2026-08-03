@@ -238,4 +238,13 @@
   });
 
   updateActiveOption();
+
+  // 监听 data-theme 变化，切换主题时自动更新 UI（例如从 SideMenu 触发切换）
+  const themeObserver = new MutationObserver(() => {
+    updateActiveOption();
+  });
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
 </script>
