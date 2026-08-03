@@ -51,17 +51,17 @@
   image: "2012-1.webp"
   link: https://tieba.baidu.com/p/1384491654
 
-- title: "Mario Forever作者公布New Super Mario Forever"
-  year: 2012
-  description: "2012年初，作者公布了一款全新的游戏Mario Forever 2012（后改名New Super Mario Forever，简称NSMF），于2012年12月21日发布。该作质量低于吧友预期，热度被后来的Mario Forever自制作品盖了过去。"
-  image: "2012-2.webp"
-  link: https://tieba.baidu.com/p/2059217967
-
 - title: "Mario Forever 9-1发布"
   year: 2012
   description: "2012年8月，@syzxchulun 等吧友发现了Mario Worker 1.0的源代码，并于永吧建吧六周年之际成功用Multimedia Fusion软件基于该源代码制作出关卡9-1。本关的设计风格基于Mario Forever的关卡6-3，但其中有不少设计在Mario Forever中是没有过的。"
   image: "2012-3.webp"
   link: https://tieba.baidu.com/p/1802275939
+
+- title: "Mario Forever作者公布New Super Mario Forever"
+  year: 2012
+  description: "2012年初，作者公布了一款全新的游戏Mario Forever 2012（后改名New Super Mario Forever，简称NSMF），于2012年12月21日发布。该作质量低于吧友预期，热度被后来的Mario Forever自制作品盖了过去。"
+  image: "2012-2.webp"
+  link: https://tieba.baidu.com/p/2059217967
 
 - title: "Mario Forever World 10 Engine开源"
   year: 2013
@@ -114,6 +114,7 @@
   year: 2019
   description: "2019年5月13日，百度贴吧在毫无征兆的情况下屏蔽了2017年之前的帖子等内容。幸好@无视我233 早在2018年就开始对永吧和Marioworker吧的帖子进行备份，永吧自建吧到2020年的帖子几乎被完整地保存了下来。"
   image: ""
+  link: https://archive.marioforever.net/
 
 - title: "Mario Forever社区成立"
   year: 2019
