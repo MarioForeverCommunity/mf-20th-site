@@ -7,6 +7,9 @@ interface Props {
 }
 
 const { message, index } = Astro.props;
+
+// 将字面 "\n" 转义符转换为真实换行符（兼容 YAML 双引号写法）
+const content = message.content?.replace(/\\n/g, '\n');
 ---
 
 <div
@@ -24,8 +27,8 @@ const { message, index } = Astro.props;
     <span class="message-username">{message.username}</span>
   </div>
   <div class="message-body">
-    {message.content && (
-      <p class="message-content">"{message.content}"</p>
+    {content && (
+      <p class="message-content">"{content}"</p>
     )}
     {message.image && (
       <img
@@ -95,6 +98,7 @@ const { message, index } = Astro.props;
     font-size: var(--font-size-sm);
     line-height: 1.6;
     color: var(--color-text-secondary);
+    white-space: pre-line; /* 保留换行符 */
   }
 
   .message-image {
