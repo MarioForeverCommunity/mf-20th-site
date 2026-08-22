@@ -1,36 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-// TODO: 视频发布后，将 bvid 替换为真实 BV 号（例如 BV1xx411c7mD）
-const bvid = 'BV1N38q6xE29';
 ---
 
-<BaseLayout title="MF Direct" description="永吧二十周年作品直面会">
+<BaseLayout title="庆典回顾" description="永吧二十周年庆典活动回顾">
   <div class="page-content">
     <section class="page-header">
       <div class="section-inner">
-        <img
-          src="/images/direct/mfd.webp"
-          alt="MF Direct Logo"
-          class="direct-logo"
-          loading="lazy"
-        />
+        <h1 class="page-title">庆典回顾</h1>
       </div>
     </section>
 
-    <section class="direct-section">
+    <section class="celebration-section">
       <div class="section-inner">
-        <div class="card direct-card">
-          <h2 class="direct-title">Mario Forever Direct 精彩回顾</h2>
+        <div class="card celebration-card">
+          <h2 class="celebration-title">永远的玛丽吧二十周年庆会精彩回顾</h2>
           <iframe
-            class="direct-video"
-            src={`//player.bilibili.com/player.html?isOutside=true&aid=117133069588521&bvid=BV1N38q6xE29&cid=41129411272&p=1&autoplay=0`}
+            class="celebration-video"
+            src={`//player.bilibili.com/player.html?isOutside=true&aid=117134445452138&bvid=BV15L8B6kEmH&cid=41138720636&p=1&autoplay=0`}
             loading="lazy"
             allowfullscreen
-            title="Mario Forever Direct 视频"
+            title="二十周年庆典视频"
           ></iframe>
-          <div class="direct-actions">
-            <a href="https://www.bilibili.com/video/BV1N38q6xE29/" class="btn-primary" target="_blank" rel="noopener noreferrer">查看视频</a>
+          <div class="celebration-actions">
+            <a href="https://www.bilibili.com/video/BV15L8B6kEmH/" class="btn-primary" target="_blank" rel="noopener noreferrer">查看视频</a>
           </div>
         </div>
       </div>
@@ -68,11 +60,11 @@ const bvid = 'BV1N38q6xE29';
     line-height: 1.6;
   }
 
-  .direct-section {
+  .celebration-section {
     padding-bottom: 48px;
   }
 
-  .direct-card {
+  .celebration-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,25 +73,14 @@ const bvid = 'BV1N38q6xE29';
     text-align: center;
   }
 
-  .direct-logo {
-    max-width: 240px;
-    height: auto;
-  }
-
-  .direct-title {
+  .celebration-title {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
     margin-bottom: 20px;
   }
 
-  .direct-desc {
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: 20px;
-  }
-
-  .direct-video {
+  .celebration-video {
     width: 100%;
     max-width: 960px;
     aspect-ratio: 16 / 9;
@@ -109,7 +90,7 @@ const bvid = 'BV1N38q6xE29';
     display: block;
   }
 
-  .direct-actions {
+  .celebration-actions {
     display: flex;
     gap: 12px;
   }
@@ -117,7 +98,7 @@ const bvid = 'BV1N38q6xE29';
   /* === 风格覆盖 === */
 
   /* 复古2006 */
-  :global([data-theme="retro"]) .direct-card {
+  :global([data-theme="retro"]) .celebration-card {
     border-radius: 0;
     box-shadow: none;
   }

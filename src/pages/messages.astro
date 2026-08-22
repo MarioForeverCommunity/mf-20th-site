@@ -12,7 +12,7 @@ const messages = await loadYaml<MessageItem[]>('messages.yaml');
     <section class="page-header">
       <div class="section-inner">
         <h1 class="page-title">贺图寄语</h1>
-        <p class="page-desc">永吧二十周年贺图和寄语征稿活动火热进行中~</p>
+        <p class="page-desc">永吧二十周年贺图和寄语征稿活动截稿时间：2026-08-24 00:00</p>
       </div>
     </section>
 
@@ -20,12 +20,6 @@ const messages = await loadYaml<MessageItem[]>('messages.yaml');
       <div class="section-inner">
         <div class="messages-grid">
           {messages.map((message, index) => <MessageCard message={message} index={index} />)}
-        </div>
-
-        <div class="messages-footer">
-          <p class="footer-note">
-            <a href="https://www.marioforever.net/thread-3916-1-1.html" target="_blank" rel="noopener noreferrer">想要留下你的祝福？请点击这里前往社区征集渠道投稿</a>。
-          </p>
         </div>
       </div>
     </section>

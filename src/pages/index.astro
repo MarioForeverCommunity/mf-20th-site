@@ -135,16 +135,10 @@ let usernames = getAvatarUsernames();
             <p class="link-desc">吧友们的心声与祝福</p>
           </a>
 
-          <a href="/direct" class="card link-card link-card-direct">
-            <div class="link-icon">🎬</div>
-            <h3 class="link-title">MF Direct</h3>
-            <p class="link-desc">二十周年直面会</p>
-          </a>
-
-          <a href="/avatars" class="card link-card link-card-avatars">
-            <div class="link-icon">👥</div>
-            <h3 class="link-title">吧友头像墙</h3>
-            <p class="link-desc">吧友头像随机展示</p>
+          <a href="/celebration" class="card link-card">
+            <div class="link-icon">🎉</div>
+            <h3 class="link-title">庆典回顾</h3>
+            <p class="link-desc">永吧二十周年庆会精彩回顾</p>
           </a>
         </div>
       </div>
@@ -418,20 +412,6 @@ let usernames = getAvatarUsernames();
 
   /* modern 主题：头像墙移至独立页面 /avatars */
   :global([data-theme="modern"]) .avatar-section {
-    display: none;
-  }
-
-  /* avatars 卡片默认隐藏（retro 显示 MF Direct 卡片） */
-  .link-card-avatars {
-    display: none;
-  }
-
-  /* modern 主题：显示 avatars 卡片，隐藏 MF Direct 卡片 */
-  :global([data-theme="modern"]) .link-card-avatars {
-    display: block;
-  }
-
-  :global([data-theme="modern"]) .link-card-direct {
     display: none;
   }
 
