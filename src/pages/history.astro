@@ -54,11 +54,16 @@ const years: YearInfo[] = Array.from(yearCounts.entries()).map(([year, count]) =
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
-    margin: 0;
   }
 
   .timeline-section {
     position: relative;
     padding-bottom: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .page-title {
+      margin-bottom: 16px;
+    }
   }
 </style>

@@ -1,0 +1,78 @@
+---
+interface Props {
+  /** 触发放大的图片选择器，多个用逗号分隔 */
+  selectors: string;
+}
+
+const { selectors } = Astro.props;
+---
+
+<!-- 图片点击放大 Lightbox（每页使用一个实例） -->
+<div class="image-lightbox" data-selectors={selectors}>
+  <img class="lightbox-image" alt="" src="" />
+</div>
+
+<style>
+  .image-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: color-mix(in srgb, var(--color-bg-primary) 90%, transparent);
+    cursor: zoom-out;
+  }
+
+  .image-lightbox.active {
+    display: flex;
+    animation: lightboxFadeIn 0.2s ease-out;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+  }
+
+  @keyframes lightboxFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  // 图片点击放大（事件委托，兼容多张图片）
+  const modal = document.querySelector('.image-lightbox') as HTMLElement | null;
+  const selectors = modal?.getAttribute('data-selectors') ?? '.lightbox-image';
+  const modalImage = modal?.querySelector('.lightbox-image') as HTMLImageElement | null;
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const img = target.closest<HTMLImageElement>(selectors);
+    if (!img || !modal || !modalImage) return;
+
+    modalImage.src = img.src;
+    modalImage.alt = img.alt || '';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeModal() {
+    modal?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  modal?.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>

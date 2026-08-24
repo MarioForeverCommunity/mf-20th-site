@@ -1,6 +1,7 @@
 ---
 import type { HistoryItem } from '../types/history';
 import TimelineCard from './TimelineCard.astro';
+import ImageLightbox from './ImageLightbox.astro';
 
 interface Props {
   items: HistoryItem[];
@@ -34,10 +35,8 @@ const processedItems = sortedItems.map((item, index) => {
   </div>
 </div>
 
-<!-- Image modal (one instance for the whole timeline) -->
-<div id="image-modal" class="image-modal">
-  <img id="modal-image" src="" alt="" class="modal-image" />
-</div>
+<!-- 图片点击放大 -->
+<ImageLightbox selectors=".timeline-img, .thumb-img" />
 
 <style>
   /* ===== Base container styles ===== */
@@ -100,63 +99,4 @@ const processedItems = sortedItems.map((item, index) => {
       height: auto;
     }
   }
-
-  /* ===== Image modal ===== */
-  .image-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-xl);
-    background-color: color-mix(in srgb, var(--color-bg-primary) 90%, transparent);
-  }
-
-  .image-modal.active {
-    display: flex;
-  }
-
-  .modal-image {
-    max-height: 90vh;
-    max-width: 90vw;
-    border-radius: var(--radius-xl);
-    object-fit: contain;
-    box-shadow: var(--shadow-lg);
-  }
 </style>
-
-<script>
-  const modal = document.getElementById('image-modal');
-  const modalImage = document.getElementById('modal-image') as HTMLImageElement;
-
-  // 监听时间线图片和缩略图的点击
-  document.querySelectorAll('.timeline-img, .thumb-img').forEach((img) => {
-    img.addEventListener('click', () => {
-      if (modal && modalImage) {
-        modalImage.src = (img as HTMLImageElement).src;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
-
-  function closeModal() {
-    if (modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
-  });
-</script>

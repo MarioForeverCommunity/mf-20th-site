@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MessageCard from '../components/MessageCard.astro';
+import ImageLightbox from '../components/ImageLightbox.astro';
 import { loadYaml } from '../utils/loadYaml';
 import type { MessageItem } from '../types/message';
 
@@ -23,6 +24,8 @@ const messages = await loadYaml<MessageItem[]>('messages.yaml');
         </div>
       </div>
     </section>
+
+    <ImageLightbox selectors=".message-image" />
   </div>
 </BaseLayout>
 
